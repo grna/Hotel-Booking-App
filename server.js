@@ -7,21 +7,22 @@ const cors = require("cors");
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost/booking-app-db", {
+mongoose.connect("mongodb://localhost/hotel-booking-app-db", {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
 
-const Route = mongoose.model(
-  "routes",
+const Room = mongoose.model(
+  "rooms",
   new mongoose.Schema({
     _id: { type: String, default: shortid.generate },
+    numbers: [Number],
     title: String,
-    river: String,
-    hours: Number,
-    complexity: Number,
+    category: String,
+    features: [String],
     image: String,
+    price: Number,
   })
 );
 
@@ -31,18 +32,22 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.get("/api/routes", async (req, res) => {
-  debugger;
-  const routes = await Route.find({});
-  res.send(routes);
+app.get("/api/rooms", async (req, res) => {
+  const rooms = await Room.find({});
+  res.send(rooms);
 });
 
-app.post("/api/routes", async (req, res) => {
-  const newRoute = new Route(req.body);
-  const savedRoute = await newRoute.save();
-  res.send(savedRoute);
+app.post("/api/rooms", async (req, res) => {
+  const newRoom = new Room(req.body);
+  const savedRoom = await newRoom.save();
+  res.send(savedRoom);
 });
 
-const port = process.env.PORT || 5001;
+app.delete("/api/rooms/:id", async (req, res) => {
+  const deletedRoom = await Room.findByIdAndDelete(req.params.id);
+  res.send(deletedRoom);
+});
 
-app.listen(port, () => console.log("serve at http://localhost:5001"));
+const port = process.env.PORT || 3001;
+
+app.listen(port, () => console.log("serve at http://localhost:3001"));
