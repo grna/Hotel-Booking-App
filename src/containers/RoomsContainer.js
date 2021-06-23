@@ -1,10 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import RoomsList from "../components/RoomsList";
 
-function RoomsContainer(props) {
-  return <div>Available Rooms</div>;
-}
+const RoomsContainer = ({ rooms }) => {
+  return <RoomsList rooms={rooms} />;
+};
 
-RoomsContainer.propTypes = {};
+RoomsContainer.propTypes = {
+  rooms: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      numbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+      title: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      features: PropTypes.arrayOf(PropTypes.string).isRequired,
+      image: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+    })
+  ),
+};
 
-export default RoomsContainer;
+const mapStateToProps = (state) => ({
+  rooms: state.fromRooms.rooms,
+});
+
+export default connect(mapStateToProps, {})(RoomsContainer);

@@ -1,0 +1,40 @@
+.room-list {
+  margin: 0.5rem;
+}
+.room-list ul {
+  margin: 0;
+  padding: 0;
+}
+.room {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-top: 1.2rem;
+}
+.room img {
+  width: 100%;
+  object-fit: cover;
+}
+.room div,
+.room img {
+  padding-bottom: 0.8rem;
+}
+.room h3 {
+  margin: 0.8rem 0;
+}
+.features-list {
+  font-size: 0.8rem;
+}
+.features-list li {
+  list-style-type: disc;
+  padding-top: 0.4rem;
+}
+@media only screen and (min-width: 768px) {
+  .room {
+    flex-direction: row-reverse;
+  }
+  .room-description {
+    margin: 0 4rem 0 2rem;
+  }
+}
