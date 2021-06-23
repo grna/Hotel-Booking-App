@@ -1,0 +1,23 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 100vw;
+}
+.home img {
+  object-fit: cover;
+  height: 11em;
+}
+.home form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+.home form div,
+.home form input {
+  margin-top: 1rem;
+}
+.home label input {
+  margin-left: 0.5rem;
+}

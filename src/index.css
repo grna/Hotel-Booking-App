@@ -41,6 +41,20 @@ main {
   overflow-x: hidden;
 }
 
+.btn {
+  border: none;
+  background-color: #ff8000;
+  color: #203040;
+}
+.btn-lg {
+  width: max-content;
+  padding: 0.5rem 2.5rem;
+}
+.btn-xlg {
+  width: 80%;
+  padding: 0.5rem 2.5rem;
+}
+
 @media only screen and (min-width: 1280px) {
   main {
     padding: 0 18rem;
