@@ -3,7 +3,7 @@
   "description": "React and Redux Pluralsight course by Cory House",
   "scripts": {
     "server": "nodemon server.js",
-    "start": "run-p start:dev",
+    "start": "run-p server start:dev",
     "start:dev": "webpack-dev-server --config webpack.config.dev.js --port 3000"
   },
   "dependencies": {
