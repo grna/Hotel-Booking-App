@@ -1,17 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Home from "../components/Home";
+import Search from "../components/Search";
 import { searchAvailableRooms } from "../redux/actions/ordersActions";
+import RoomsList from "../components/RoomsList";
 
-const HomeContainer = ({
+const SearchContainer = ({
   rooms,
   availableRooms,
   searchAvailableRooms,
 }) => {
   return (
     <div>
-      <Home
+      <Search
         onRoomSearch={(e) => {
           e.preventDefault();
           searchAvailableRooms(
@@ -21,11 +22,12 @@ const HomeContainer = ({
           );
         }}
       />
+      {availableRooms && <RoomsList rooms={availableRooms} />}
     </div>
   );
 };
 
-HomeContainer.propTypes = {
+SearchContainer.propTypes = {
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -37,12 +39,15 @@ HomeContainer.propTypes = {
       price: PropTypes.number.isRequired,
     })
   ),
-  orders: PropTypes.arrayOf(
+  availableRooms: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      dateFrom: PropTypes.string.isRequired,
-      dateTo: PropTypes.string.isRequired,
-      roomNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+      numbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+      title: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      features: PropTypes.arrayOf(PropTypes.string).isRequired,
+      image: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
     })
   ),
   searchAvailableRooms: PropTypes.func.isRequired,
@@ -50,9 +55,9 @@ HomeContainer.propTypes = {
 
 const mapStateToProps = (state) => ({
   rooms: state.fromRooms.rooms,
-  orders: state.fromOrders.orders,
+  availableRooms: state.fromOrders.availableRooms,
 });
 
 export default connect(mapStateToProps, { searchAvailableRooms })(
-  HomeContainer
+  SearchContainer
 );

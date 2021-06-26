@@ -1,23 +1,24 @@
-.home {
+.search {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   width: 100vw;
+  margin-bottom: 2rem;
 }
-.home img {
+.search img {
   object-fit: cover;
   height: 11em;
 }
-.home form {
+.search form {
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
 }
-.home form div,
-.home form input {
+.search form div,
+.search form input {
   margin-top: 1rem;
 }
-.home label input {
+.search label input {
   margin-left: 0.5rem;
 }
