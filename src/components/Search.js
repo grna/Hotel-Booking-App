@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./home.css";
+import "./search.css";
 
 const Home = ({ onRoomSearch }) => {
   return (
-    <div className="home">
+    <div className="search">
       <img src="../static/images/facade.jpg" alt="facade.jpg"></img>
       <form onSubmit={onRoomSearch}>
         <label>

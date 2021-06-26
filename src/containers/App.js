@@ -4,14 +4,14 @@ import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
 import About from "../components/About";
 import RoomsContainer from "../containers/RoomsContainer";
-import HomeContainer from "./HomeContainer";
+import SearchContainer from "./SearchContainer";
 
 const App = () => (
   <div className="app grid-container">
     <Header />
     <main>
       <Switch>
-        <Route exact path="/" component={HomeContainer} />
+        <Route exact path="/" component={SearchContainer} />
         <Route path="/rooms" component={RoomsContainer} />
         <Route path="/about" component={About} />
       </Switch>
