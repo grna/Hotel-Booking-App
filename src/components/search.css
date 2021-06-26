@@ -22,3 +22,8 @@
 .search label input {
   margin-left: 0.5rem;
 }
+.date-error {
+  color: rgb(175, 5, 5);
+  font-size: 1rem;
+  margin-left: 1rem;
+}
