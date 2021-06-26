@@ -26,6 +26,16 @@ const Room = mongoose.model(
   })
 );
 
+const Order = mongoose.model(
+  "orders",
+  new mongoose.Schema({
+    _id: { type: String, default: shortid.generate },
+    dateFrom: Date,
+    dateTo: Date,
+    roomNumbers: [Number],
+  })
+);
+
 const corsOptions = {
   origin: "http://localhost:3000",
 };
@@ -46,6 +56,24 @@ app.post("/api/rooms", async (req, res) => {
 app.delete("/api/rooms/:id", async (req, res) => {
   const deletedRoom = await Room.findByIdAndDelete(req.params.id);
   res.send(deletedRoom);
+});
+
+app.get("/api/orders", async (req, res) => {
+  let from = new Date(req.query.from);
+  let to = new Date(req.query.to);
+
+  const orders = await Order.find({
+    dateFrom: { $gte: from },
+    dateTo: { $lte: to },
+  });
+
+  res.send(orders);
+});
+
+app.post("/api/orders", async (req, res) => {
+  const newOrder = new Order(req.body);
+  const savedOrder = await newOrder.save();
+  res.send(savedOrder);
 });
 
 const port = process.env.PORT || 3001;

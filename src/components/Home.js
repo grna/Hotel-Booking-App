@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./home.css";
 
-const Home = ({ onDateSearch }) => {
+const Home = ({ onRoomSearch }) => {
   return (
     <div className="home">
       <img src="../static/images/facade.jpg" alt="facade.jpg"></img>
-      <form onSubmit={onDateSearch}>
+      <form onSubmit={onRoomSearch}>
         <label>
           From:
           <input
@@ -37,7 +37,7 @@ const Home = ({ onDateSearch }) => {
 };
 
 Home.propTypes = {
-  onDateSearch: PropTypes.func,
+  onRoomSearch: PropTypes.func,
 };
 
 export default Home;
