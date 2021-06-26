@@ -1,25 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Search from "../components/Search";
 import { searchAvailableRooms } from "../redux/actions/ordersActions";
 import RoomsList from "../components/RoomsList";
+import validator from "validator";
 
 const SearchContainer = ({
   rooms,
   availableRooms,
   searchAvailableRooms,
 }) => {
+  const [error, SetError] = useState("");
+
+  const validateInput = (e) => {
+    if (
+      !validator.isDate(e.target[0].value, {
+        format: "YYYY-MM-DD",
+      }) ||
+      !validator.isDate(e.target[1].value, {
+        format: "YYYY-MM-DD",
+      }) ||
+      new Date(e.target[0].value) < new Date()
+    ) {
+      SetError("Please enter a valid date!");
+      return false;
+    }
+    SetError("");
+    return true;
+  };
+
   return (
     <div>
       <Search
+        error={error}
         onRoomSearch={(e) => {
           e.preventDefault();
-          searchAvailableRooms(
-            rooms,
-            e.target[0].value,
-            e.target[1].value
-          );
+          if (validateInput(e)) {
+            searchAvailableRooms(
+              rooms,
+              e.target[0].value,
+              e.target[1].value
+            );
+          }
         }}
       />
       {availableRooms && <RoomsList rooms={availableRooms} />}

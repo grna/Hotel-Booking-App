@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const shortid = require("shortid");
 const cors = require("cors");
+const validator = require("validator");
 
 const app = express();
 app.use(bodyParser.json());
@@ -59,15 +60,22 @@ app.delete("/api/rooms/:id", async (req, res) => {
 });
 
 app.get("/api/orders", async (req, res) => {
-  let from = new Date(req.query.from);
-  let to = new Date(req.query.to);
+  if (
+    !validator.isDate(req.query.from, { format: "YYYY-MM-DD" }) ||
+    !validator.isDate(req.query.to, { format: "YYYY-MM-DD" })
+  ) {
+    res.status(400).json("Invalid date format in the query string!");
+  } else {
+    let from = new Date(req.query.from);
+    let to = new Date(req.query.to);
 
-  const orders = await Order.find({
-    dateFrom: { $gte: from },
-    dateTo: { $lte: to },
-  });
+    const orders = await Order.find({
+      dateFrom: { $gte: from },
+      dateTo: { $lte: to },
+    });
 
-  res.send(orders);
+    res.send(orders);
+  }
 });
 
 app.post("/api/orders", async (req, res) => {

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./search.css";
 
-const Home = ({ onRoomSearch }) => {
+const Home = ({ error, onRoomSearch }) => {
   return (
     <div className="search">
       <img src="../static/images/facade.jpg" alt="facade.jpg"></img>
@@ -14,6 +14,7 @@ const Home = ({ onRoomSearch }) => {
             type="date"
             name="dateFrom"
           ></input>
+          {error && <span className="date-error">{error}</span>}
         </label>
 
         <label>
@@ -23,6 +24,7 @@ const Home = ({ onRoomSearch }) => {
             type="date"
             name="dateTo"
           ></input>
+          {error && <span className="date-error">{error}</span>}
         </label>
         <div>
           <input
@@ -37,6 +39,7 @@ const Home = ({ onRoomSearch }) => {
 };
 
 Home.propTypes = {
+  error: PropTypes.string,
   onRoomSearch: PropTypes.func,
 };
 

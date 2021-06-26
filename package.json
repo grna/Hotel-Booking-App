@@ -31,7 +31,8 @@
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "shortid": "^2.2.16",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "@babel/core": "7.3.4",
