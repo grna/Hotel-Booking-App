@@ -1,20 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./search.css";
+import moment from "moment";
+import validator from "validator";
 
-const Home = ({ error, onRoomSearch }) => {
+const Search = ({ searchAvailableRooms }) => {
+  const [errorFrom, SetErrorFrom] = useState("");
+  const [errorTo, SetErrorTo] = useState("");
+  const today = moment().format("YYYY-MM-DD");
+  const tomorrow = moment().add(1, "days").format("YYYY-MM-DD");
+
+  // Prevent server call, validate input, pass on dates
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    SetErrorFrom("");
+    SetErrorTo("");
+    let valid = true;
+    let dateFrom = moment(e.target[0].value)._i;
+    let dateTo = moment(e.target[1].value)._i;
+
+    if (
+      !validator.isDate(e.target[0].value) ||
+      dateFrom < today ||
+      dateFrom > dateTo
+    ) {
+      SetErrorFrom("Please enter a valid date!");
+      valid = false;
+    }
+    if (
+      !validator.isDate(e.target[1].value) ||
+      dateTo < tomorrow ||
+      dateTo < dateFrom
+    ) {
+      SetErrorTo("Please enter a valid date!");
+      valid = false;
+    }
+
+    valid && searchAvailableRooms(dateFrom, dateTo);
+  };
+
   return (
     <div className="search">
       <img src="../static/images/facade.jpg" alt="facade.jpg"></img>
-      <form onSubmit={onRoomSearch}>
+      <form
+        onSubmit={(e) => {
+          onFormSubmit(e);
+        }}
+      >
         <label>
           From:
           <input
             className="input-date"
             type="date"
             name="dateFrom"
+            min={today}
           ></input>
-          {error && <span className="date-error">{error}</span>}
+          {errorFrom && (
+            <span className="date-error">{errorFrom}</span>
+          )}
         </label>
 
         <label>
@@ -23,8 +66,9 @@ const Home = ({ error, onRoomSearch }) => {
             className="input-date"
             type="date"
             name="dateTo"
+            min={tomorrow}
           ></input>
-          {error && <span className="date-error">{error}</span>}
+          {errorTo && <span className="date-error">{errorTo}</span>}
         </label>
         <div>
           <input
@@ -38,9 +82,8 @@ const Home = ({ error, onRoomSearch }) => {
   );
 };
 
-Home.propTypes = {
-  error: PropTypes.string,
-  onRoomSearch: PropTypes.func,
+Search.propTypes = {
+  searchAvailableRooms: PropTypes.func,
 };
 
-export default Home;
+export default Search;
