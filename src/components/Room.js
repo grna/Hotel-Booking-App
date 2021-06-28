@@ -6,18 +6,20 @@ import "./room.css";
 const Room = ({ room }) => {
   let i = 0;
   return (
-    <div className="room">
-      <img src={room.image} alt={room.title} />
-      <div className="room-description">
-        <h3>{room.title}</h3>
-        <div>{formatCurrency(room.price)}</div>
-        <div>
-          Room features:
-          <ul className="features-list">
-            {room.features.map((x) => (
-              <li key={i++}>{x}</li>
-            ))}
-          </ul>
+    <div>
+      <div className="room">
+        <img src={room.image} alt={room.title} />
+        <div className="room-description">
+          <h3>{room.title}</h3>
+          <div>{formatCurrency(room.price)}</div>
+          <div>
+            Room features:
+            <ul className="features-list">
+              {room.features.map((x) => (
+                <li key={i++}>{x}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

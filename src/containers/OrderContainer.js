@@ -1,28 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Search from "../components/Search";
 import { searchAvailableRooms } from "../redux/actions/ordersActions";
-import RoomsList from "../components/RoomsList";
+import OrderForm from "../components/OrderForm";
 
-const SearchContainer = ({
+const OrderContainer = ({
   rooms,
   availableRooms,
+  dateFrom,
+  dateTo,
   searchAvailableRooms,
 }) => {
+  function handleFormSubmit(e) {}
+
   return (
     <div>
       <Search
-        searchAvailableRooms={(dateFrom, dateTo) => {
-          searchAvailableRooms(rooms, dateFrom, dateTo);
+        searchAvailableRooms={(_dateFrom, _dateTo) => {
+          searchAvailableRooms(rooms, _dateFrom, _dateTo);
         }}
       />
-      {availableRooms && <RoomsList rooms={availableRooms} />}
+      {availableRooms && (
+        <OrderForm
+          rooms={availableRooms}
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+          createOrder={handleFormSubmit()}
+        />
+      )}
     </div>
   );
 };
 
-SearchContainer.propTypes = {
+OrderContainer.propTypes = {
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -45,14 +56,18 @@ SearchContainer.propTypes = {
       price: PropTypes.number.isRequired,
     })
   ),
+  dateFrom: PropTypes.string,
+  dateTo: PropTypes.string,
   searchAvailableRooms: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   rooms: state.fromRooms.rooms,
   availableRooms: state.fromOrders.availableRooms,
+  dateFrom: state.fromOrders.dateFrom,
+  dateTo: state.fromOrders.dateTo,
 });
 
 export default connect(mapStateToProps, { searchAvailableRooms })(
-  SearchContainer
+  OrderContainer
 );

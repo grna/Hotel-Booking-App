@@ -1,0 +1,43 @@
+.order-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 2rem;
+}
+.order-form label {
+  font-size: 1rem;
+}
+.order-room {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 15rem;
+  width: 100%;
+  background-color: rgb(240, 240, 240);
+  padding: 1rem;
+}
+.inline {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.inline label {
+  margin: 0 1rem;
+}
+.row {
+  margin-bottom: 2rem;
+}
+.multi-line {
+  display: flex;
+  flex-direction: column;
+}
+.order-form img {
+  max-width: 8rem;
+}

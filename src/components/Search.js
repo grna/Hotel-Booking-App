@@ -16,27 +16,27 @@ const Search = ({ searchAvailableRooms }) => {
     SetErrorFrom("");
     SetErrorTo("");
     let valid = true;
-    let dateFrom = moment(e.target[0].value)._i;
-    let dateTo = moment(e.target[1].value)._i;
+    let _dateFrom = moment(e.target[0].value)._i;
+    let _dateTo = moment(e.target[1].value)._i;
 
     if (
       !validator.isDate(e.target[0].value) ||
-      dateFrom < today ||
-      dateFrom > dateTo
+      _dateFrom < today ||
+      _dateFrom > _dateTo
     ) {
       SetErrorFrom("Please enter a valid date!");
       valid = false;
     }
     if (
       !validator.isDate(e.target[1].value) ||
-      dateTo < tomorrow ||
-      dateTo < dateFrom
+      _dateTo < tomorrow ||
+      _dateTo < _dateFrom
     ) {
       SetErrorTo("Please enter a valid date!");
       valid = false;
     }
 
-    valid && searchAvailableRooms(dateFrom, dateTo);
+    valid && searchAvailableRooms(_dateFrom, _dateTo);
   };
 
   return (

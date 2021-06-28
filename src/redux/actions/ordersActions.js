@@ -1,9 +1,9 @@
 import { SEARCH_AVAILABLE_ROOMS } from "../ActionTypes";
 
 export const searchAvailableRooms =
-  (rooms, dateFrom, dateTo) => async (dispatch) => {
+  (rooms, _dateFrom, _dateTo) => async (dispatch) => {
     const res = await fetch(
-      `http://localhost:3001/api/orders?from=${dateFrom}&to=${dateTo}`
+      `http://localhost:3001/api/orders?from=${_dateFrom}&to=${_dateTo}`
     );
     const orders = await res.json();
     let availableRooms = rooms.slice();
@@ -24,7 +24,7 @@ export const searchAvailableRooms =
     setTimeout(function () {
       dispatch({
         type: SEARCH_AVAILABLE_ROOMS,
-        payload: availableRooms,
+        payload: { availableRooms, _dateFrom, _dateTo },
       });
     }, 1000);
   };
