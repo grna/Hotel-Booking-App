@@ -90,6 +90,12 @@ app.post("/api/orders", async (req, res) => {
   res.send(savedOrder);
 });
 
+// For testing only
+app.delete("/api/orders", async (req, res) => {
+  const deletedOrders = await Order.deleteMany();
+  res.send(deletedOrders);
+});
+
 const port = process.env.PORT || 3001;
 
 app.listen(port, () => console.log("serve at http://localhost:3001"));

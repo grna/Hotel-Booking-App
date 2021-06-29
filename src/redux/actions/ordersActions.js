@@ -30,20 +30,18 @@ export const searchAvailableRooms =
   };
 
 export const createOrder = (order) => async (dispatch) => {
-  console.log(order);
-
-  // await fetch("http://localhost:3001/api/orders", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(order),
-  // })
-  //   .then((res) => res.json())
-  //   .then((data) => {
-  //     dispatch({
-  //       type: CREATE_ORDER,
-  //       payload: data,
-  //     });
-  //   });
+  await fetch("http://localhost:3001/api/orders", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(order),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({
+        type: CREATE_ORDER,
+        payload: data,
+      });
+    });
 };
