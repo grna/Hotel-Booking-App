@@ -1,4 +1,4 @@
-import { SEARCH_AVAILABLE_ROOMS } from "../ActionTypes";
+import { CREATE_ORDER, SEARCH_AVAILABLE_ROOMS } from "../ActionTypes";
 
 export const searchAvailableRooms =
   (rooms, _dateFrom, _dateTo) => async (dispatch) => {
@@ -28,3 +28,22 @@ export const searchAvailableRooms =
       });
     }, 1000);
   };
+
+export const createOrder = (order) => async (dispatch) => {
+  console.log(order);
+
+  // await fetch("http://localhost:3001/api/orders", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(order),
+  // })
+  //   .then((res) => res.json())
+  //   .then((data) => {
+  //     dispatch({
+  //       type: CREATE_ORDER,
+  //       payload: data,
+  //     });
+  //   });
+};

@@ -33,6 +33,12 @@ const Order = mongoose.model(
     _id: { type: String, default: shortid.generate },
     dateFrom: Date,
     dateTo: Date,
+    numberOfAdults: Number,
+    numberOfChildren: Number,
+    firstName: String,
+    lastName: String,
+    email: String,
+    phone: String,
     roomNumbers: [Number],
   })
 );

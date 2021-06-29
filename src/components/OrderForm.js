@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Loader from "react-loader-spinner";
-import Select from "react-select";
 import "./orderForm.css";
 
 const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
@@ -11,51 +10,42 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [bookedRooms, setBookedRooms] = useState([
-    {
-      category: "signature",
-      quantity: 0,
-    },
-    {
-      category: "deluxe",
-      quantity: 0,
-    },
-  ]);
+  const [roomNumbers, setRoomNumbers] = useState([]);
 
-  const handleSelectRoom = (e, _room) => {
-    let newArray = bookedRooms.map((element) =>
-      element.category === _room.category
-        ? {
-            ...element,
-            quantity: e.value,
-          }
-        : { ...element }
-    );
-    setBookedRooms(newArray);
-  };
-
-  const fillOptionsArray = (topNumber) => {
-    let options = [];
-    for (let i = 1; i < topNumber + 1; i++) {
-      options.push({ value: i, label: i });
-    }
-    return options;
+  const assignRoomNumbers = () => {
+    let roomCount = 0;
+    rooms.forEach((room) => {
+      roomCount = parseInt(
+        document.getElementById(room.category).value
+      );
+      if (roomCount > 0) {
+        for (let i = 0; i < roomCount; i++) {
+          setRoomNumbers((roomNumbers) => [
+            ...roomNumbers,
+            room.numbers[i],
+          ]);
+        }
+      }
+    });
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    assignRoomNumbers();
+
     const order = {
-      _dateFrom: dateFrom,
-      _dateTo: dateTo,
-      _numberOfAdults: numberOfAdults,
-      _numberOfChildren: numberOfChildren,
-      _firstName: firstName,
-      _lastName: lastName,
-      _email: email,
-      _phone: phone,
-      _bookedRooms: bookedRooms,
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+      numberOfAdults: numberOfAdults,
+      numberOfChildren: numberOfChildren,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      roomNumbers: roomNumbers,
     };
-    console.log(order);
+
+    createOrder(order);
   };
 
   return (
@@ -91,11 +81,17 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                 <img src={room.image} alt={room.title}></img>
                 <div className="inline">
                   <label>{"Number of rooms: "}</label>
-                  <Select
-                    name={room.category}
-                    options={fillOptionsArray(room.numbers.length)}
-                    onChange={(e) => handleSelectRoom(e, room)}
-                  />
+                  <select name={room.category} id={room.category}>
+                    <option value={0}>{0}</option>
+                    {room.numbers.map((number) => (
+                      <option
+                        key={number}
+                        value={room.numbers.indexOf(number)}
+                      >
+                        {room.numbers.indexOf(number)}
+                      </option>
+                    ))}
+                  </select>
                   <label>
                     {" /"}
                     {room.numbers.length}
@@ -106,23 +102,45 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
           })}
           <div className="inline row">
             <label>Number of adults:</label>
-            <Select
+            <select
               name="numberOfAdults"
-              options={fillOptionsArray(10)}
               onChange={(e) => {
                 setNumberOfAdults(e.value);
               }}
-            ></Select>
+            >
+              <option value={0}>0</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option>
+              <option value={10}>10</option>
+            </select>
           </div>
           <div className="inline row">
             <label>Number of children:</label>
-            <Select
+            <select
               name="numberOfChildren"
-              options={fillOptionsArray(10)}
               onChange={(e) => {
                 setNumberOfChildren(e.value);
               }}
-            ></Select>
+            >
+              <option value={0}>0</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option>
+              <option value={10}>10</option>
+            </select>
           </div>
           <div className="row multi-line">
             <label>First Name:</label>
