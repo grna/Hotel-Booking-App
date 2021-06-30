@@ -42,7 +42,7 @@ OrderContainer.propTypes = {
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      numbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+      quantity: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
       features: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -53,7 +53,7 @@ OrderContainer.propTypes = {
   availableRooms: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      numbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+      quantity: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
       features: PropTypes.arrayOf(PropTypes.string).isRequired,

@@ -18,12 +18,12 @@ const Room = mongoose.model(
   "rooms",
   new mongoose.Schema({
     _id: { type: String, default: shortid.generate },
-    numbers: [Number],
     title: String,
     category: String,
     features: [String],
     image: String,
     price: Number,
+    quantity: Number,
   })
 );
 
@@ -35,11 +35,12 @@ const Order = mongoose.model(
     dateTo: Date,
     numberOfAdults: Number,
     numberOfChildren: Number,
+    rooms: String,
+    total: Number,
     firstName: String,
     lastName: String,
     email: String,
     phone: String,
-    roomNumbers: [Number],
   })
 );
 
