@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Loader from "react-loader-spinner";
 import "./orderForm.css";
+import { DELUXE, SIGNATURE } from "../constants/roomCategories";
 
 const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [numberOfAdults, setNumberOfAdults] = useState(0);
@@ -10,32 +11,43 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [roomNumbers, setRoomNumbers] = useState({
-    signature: [],
-    deluxe: [],
+  const [_rooms, _setRooms] = useState({
+    signature: 0,
+    deluxe: 0,
   });
 
-  const onRoomCountSelect = (e) => {
-    let newArray = [];
-    const numbers = rooms.find(
-      (room) => room.category === e.target.name
-    ).numbers;
-
-    for (let i = 0; i < e.target.value; i++) {
-      newArray.push(numbers[i]);
+  const populateSelectOptions = (quantity) => {
+    let options = [];
+    for (let i = 1; i < quantity + 1; i++) {
+      options.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
     }
+    return options;
+  };
 
+  const onRoomCountSelect = (e) => {
     switch (e.target.name) {
-      case "signature":
-        setRoomNumbers({ ...roomNumbers, signature: newArray });
+      case SIGNATURE:
+        _setRooms({ ..._rooms, signature: parseInt(e.target.value) });
         break;
-      case "deluxe":
-        setRoomNumbers({ ...roomNumbers, deluxe: newArray });
+      case DELUXE:
+        _setRooms({ ..._rooms, deluxe: parseInt(e.target.value) });
         break;
       default:
         break;
     }
   };
+
+  function countTotal() {
+    return (
+      rooms.find((x) => x.category === SIGNATURE).price *
+        _rooms.signature +
+      rooms.find((x) => x.category === DELUXE).price * _rooms.deluxe
+    );
+  }
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +61,8 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
       lastName: lastName,
       email: email,
       phone: phone,
-      roomNumbers: [...roomNumbers.signature, ...roomNumbers.deluxe],
+      total: countTotal(),
+      rooms: JSON.stringify(_rooms),
     };
     createOrder(order);
   };
@@ -95,18 +108,11 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                     }}
                   >
                     <option value={0}>{0}</option>
-                    {room.numbers.map((number) => (
-                      <option
-                        key={number}
-                        value={room.numbers.indexOf(number) + 1}
-                      >
-                        {room.numbers.indexOf(number) + 1}
-                      </option>
-                    ))}
+                    {populateSelectOptions(room.quantity)}
                   </select>
                   <label>
                     {" /"}
-                    {room.numbers.length}
+                    {room.quantity}
                   </label>
                 </div>
               </div>
@@ -210,7 +216,7 @@ OrderForm.propTypes = {
   rooms: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
-      numbers: PropTypes.arrayOf(PropTypes.number),
+      quantity: PropTypes.number,
       title: PropTypes.string,
       category: PropTypes.string,
       features: PropTypes.arrayOf(PropTypes.string),
