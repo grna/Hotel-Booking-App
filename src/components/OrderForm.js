@@ -10,28 +10,35 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [roomNumbers, setRoomNumbers] = useState([]);
+  const [roomNumbers, setRoomNumbers] = useState({
+    signature: [],
+    deluxe: [],
+  });
 
-  const assignRoomNumbers = () => {
-    let roomCount = 0;
-    rooms.forEach((room) => {
-      roomCount = parseInt(
-        document.getElementById(room.category).value
-      );
-      if (roomCount > 0) {
-        for (let i = 0; i < roomCount; i++) {
-          setRoomNumbers((roomNumbers) => [
-            ...roomNumbers,
-            room.numbers[i],
-          ]);
-        }
-      }
-    });
+  const onRoomCountSelect = (e) => {
+    let newArray = [];
+    const numbers = rooms.find(
+      (room) => room.category === e.target.name
+    ).numbers;
+
+    for (let i = 0; i < e.target.value; i++) {
+      newArray.push(numbers[i]);
+    }
+
+    switch (e.target.name) {
+      case "signature":
+        setRoomNumbers({ ...roomNumbers, signature: newArray });
+        break;
+      case "deluxe":
+        setRoomNumbers({ ...roomNumbers, deluxe: newArray });
+        break;
+      default:
+        break;
+    }
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    assignRoomNumbers();
 
     const order = {
       dateFrom: dateFrom,
@@ -42,9 +49,8 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
       lastName: lastName,
       email: email,
       phone: phone,
-      roomNumbers: roomNumbers,
+      roomNumbers: [...roomNumbers.signature, ...roomNumbers.deluxe],
     };
-
     createOrder(order);
   };
 
@@ -81,14 +87,20 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                 <img src={room.image} alt={room.title}></img>
                 <div className="inline">
                   <label>{"Number of rooms: "}</label>
-                  <select name={room.category} id={room.category}>
+                  <select
+                    name={room.category}
+                    id={room.category}
+                    onChange={(e) => {
+                      onRoomCountSelect(e);
+                    }}
+                  >
                     <option value={0}>{0}</option>
                     {room.numbers.map((number) => (
                       <option
                         key={number}
-                        value={room.numbers.indexOf(number)}
+                        value={room.numbers.indexOf(number) + 1}
                       >
-                        {room.numbers.indexOf(number)}
+                        {room.numbers.indexOf(number) + 1}
                       </option>
                     ))}
                   </select>

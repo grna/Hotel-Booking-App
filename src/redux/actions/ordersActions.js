@@ -2,6 +2,7 @@ import { CREATE_ORDER, SEARCH_AVAILABLE_ROOMS } from "../ActionTypes";
 
 export const searchAvailableRooms =
   (rooms, _dateFrom, _dateTo) => async (dispatch) => {
+    debugger;
     const res = await fetch(
       `http://localhost:3001/api/orders?from=${_dateFrom}&to=${_dateTo}`
     );
