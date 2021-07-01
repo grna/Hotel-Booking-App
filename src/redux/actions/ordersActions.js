@@ -3,7 +3,17 @@ import {
   SEARCH_AVAILABLE_ROOMS,
   CLEAR_ORDER,
 } from "../ActionTypes";
-import { SIGNATURE, DELUXE } from "../../constants/roomCategories";
+
+const getAvailableCount = (room, orders) => {
+  let count = room.quantity;
+  orders.forEach((order) => {
+    let orderedRooms = JSON.parse(order.rooms);
+    count -= orderedRooms.find(
+      (x) => x.category === room.category
+    ).quantity;
+  });
+  return count;
+};
 
 export const searchAvailableRooms =
   (rooms, _dateFrom, _dateTo) => async (dispatch) => {
@@ -11,32 +21,10 @@ export const searchAvailableRooms =
       `http://localhost:3001/api/orders?from=${_dateFrom}&to=${_dateTo}`
     );
     const orders = await res.json();
-    let bookedRooms = {
-      signature: 0,
-      deluxe: 0,
-    };
-    let _rooms = {};
-
-    orders.forEach((order) => {
-      _rooms = JSON.parse(order.rooms);
-      bookedRooms.signature += _rooms.signature;
-      bookedRooms.deluxe += _rooms.deluxe;
-    });
-
-    const availableRooms = rooms.map((room) => {
-      let _quantity;
-      switch (room.category) {
-        case SIGNATURE:
-          _quantity = room.quantity - bookedRooms.signature;
-          break;
-        case DELUXE:
-          _quantity = room.quantity - bookedRooms.deluxe;
-          break;
-        default:
-          break;
-      }
-      return { ...room, quantity: _quantity };
-    });
+    const availableRooms = rooms.map((room) => ({
+      ...room,
+      quantity: getAvailableCount(room, orders),
+    }));
 
     dispatch({
       type: SEARCH_AVAILABLE_ROOMS,

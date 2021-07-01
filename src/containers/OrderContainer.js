@@ -52,7 +52,7 @@ OrderContainer.propTypes = {
       features: PropTypes.arrayOf(PropTypes.string).isRequired,
       image: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
-    })
+    }).isRequired
   ),
   availableRooms: PropTypes.arrayOf(
     PropTypes.shape({
