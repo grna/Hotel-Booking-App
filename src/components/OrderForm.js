@@ -123,7 +123,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
             <select
               name="numberOfAdults"
               onChange={(e) => {
-                setNumberOfAdults(e.value);
+                setNumberOfAdults(e.target.value);
               }}
             >
               <option value={0}>0</option>
@@ -144,7 +144,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
             <select
               name="numberOfChildren"
               onChange={(e) => {
-                setNumberOfChildren(e.value);
+                setNumberOfChildren(e.target.value);
               }}
             >
               <option value={0}>0</option>

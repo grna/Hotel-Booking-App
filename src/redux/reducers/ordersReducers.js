@@ -1,4 +1,8 @@
-import { CREATE_ORDER, SEARCH_AVAILABLE_ROOMS } from "../ActionTypes";
+import {
+  CLEAR_ORDER,
+  CREATE_ORDER,
+  SEARCH_AVAILABLE_ROOMS,
+} from "../ActionTypes";
 
 export const ordersReducers = (state = {}, action) => {
   switch (action.type) {
@@ -10,6 +14,8 @@ export const ordersReducers = (state = {}, action) => {
       };
     case CREATE_ORDER:
       return { order: action.payload };
+    case CLEAR_ORDER:
+      return { order: null };
     default:
       return state;
   }

@@ -1,3 +1,4 @@
 export const FETCH_ROOMS = "FETCH_ROOMS";
 export const SEARCH_AVAILABLE_ROOMS = "SEARCH_AVAILABLE_ROOMS";
 export const CREATE_ORDER = "CREATE_ORDER";
+export const CLEAR_ORDER = "CLEAR_ORDER";

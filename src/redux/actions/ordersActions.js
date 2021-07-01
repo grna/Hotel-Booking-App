@@ -1,4 +1,8 @@
-import { CREATE_ORDER, SEARCH_AVAILABLE_ROOMS } from "../ActionTypes";
+import {
+  CREATE_ORDER,
+  SEARCH_AVAILABLE_ROOMS,
+  CLEAR_ORDER,
+} from "../ActionTypes";
 import { SIGNATURE, DELUXE } from "../../constants/roomCategories";
 
 export const searchAvailableRooms =
@@ -55,4 +59,8 @@ export const createOrder = (order) => async (dispatch) => {
         payload: data,
       });
     });
+};
+
+export const clearOrder = () => (dispatch) => {
+  dispatch({ type: CLEAR_ORDER });
 };

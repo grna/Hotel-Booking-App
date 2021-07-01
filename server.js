@@ -77,8 +77,8 @@ app.get("/api/orders", async (req, res) => {
     let to = new Date(req.query.to);
 
     const orders = await Order.find({
-      dateFrom: { $gte: from },
-      dateTo: { $lte: to },
+      dateFrom: { $lte: to },
+      dateTo: { $gte: from },
     });
 
     res.send(orders);

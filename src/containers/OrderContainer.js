@@ -5,6 +5,7 @@ import Search from "../components/Search";
 import {
   searchAvailableRooms,
   createOrder,
+  clearOrder,
 } from "../redux/actions/ordersActions";
 import OrderForm from "../components/OrderForm";
 import OrderConfirmation from "../components/OrderConfirmation";
@@ -17,6 +18,7 @@ const OrderContainer = ({
   order,
   searchAvailableRooms,
   createOrder,
+  clearOrder,
 }) => {
   return (
     <div>
@@ -33,7 +35,9 @@ const OrderContainer = ({
           createOrder={createOrder}
         />
       )}
-      {/* {order && <OrderConfirmation order={order} />} */}
+      {order && (
+        <OrderConfirmation order={order} onModalClose={clearOrder} />
+      )}
     </div>
   );
 };
@@ -66,6 +70,7 @@ OrderContainer.propTypes = {
   order: PropTypes.object,
   searchAvailableRooms: PropTypes.func.isRequired,
   createOrder: PropTypes.func.isRequired,
+  clearOrder: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -79,4 +84,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   searchAvailableRooms,
   createOrder,
+  clearOrder,
 })(OrderContainer);
