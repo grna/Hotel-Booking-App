@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Loader from "react-loader-spinner";
 import "./orderForm.css";
-import { DELUXE, SIGNATURE } from "../constants/roomCategories";
 
 const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [numberOfAdults, setNumberOfAdults] = useState(0);
@@ -11,10 +10,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [_rooms, _setRooms] = useState({
-    signature: 0,
-    deluxe: 0,
-  });
+  const [selectedRooms, setSelectedRooms] = useState([]);
 
   const populateSelectOptions = (quantity) => {
     let options = [];
@@ -28,25 +24,30 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
     return options;
   };
 
-  const onRoomCountSelect = (e) => {
-    switch (e.target.name) {
-      case SIGNATURE:
-        _setRooms({ ..._rooms, signature: parseInt(e.target.value) });
-        break;
-      case DELUXE:
-        _setRooms({ ..._rooms, deluxe: parseInt(e.target.value) });
-        break;
-      default:
-        break;
+  const onRoomCountSelect = (e, _price) => {
+    let _room;
+    _room = selectedRooms.find((x) => x.category === e.target.name);
+    if (_room) {
+      const newArray = selectedRooms.slice();
+      _room.quantity = parseInt(e.target.value);
+      newArray.splice(selectedRooms.indexOf(_room), 1, _room);
+      setSelectedRooms(newArray);
+    } else {
+      _room = {
+        category: e.target.name,
+        price: parseInt(_price),
+        quantity: parseInt(e.target.value),
+      };
+      setSelectedRooms([...selectedRooms, _room]);
     }
   };
 
   function countTotal() {
-    return (
-      rooms.find((x) => x.category === SIGNATURE).price *
-        _rooms.signature +
-      rooms.find((x) => x.category === DELUXE).price * _rooms.deluxe
-    );
+    let total = 0;
+    selectedRooms.forEach((room) => {
+      total += room.price * room.quantity;
+    });
+    return total;
   }
 
   const handleFormSubmit = (e) => {
@@ -62,7 +63,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
       email: email,
       phone: phone,
       total: countTotal(),
-      rooms: JSON.stringify(_rooms),
+      rooms: JSON.stringify(selectedRooms),
     };
     createOrder(order);
   };
@@ -104,7 +105,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                     name={room.category}
                     id={room.category}
                     onChange={(e) => {
-                      onRoomCountSelect(e);
+                      onRoomCountSelect(e, room.price);
                     }}
                   >
                     <option value={0}>{0}</option>
