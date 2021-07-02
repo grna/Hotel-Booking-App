@@ -45,6 +45,7 @@ main {
   border: none;
   background-color: #ff8000;
   color: #203040;
+  cursor: pointer;
 }
 .btn-lg {
   width: max-content;

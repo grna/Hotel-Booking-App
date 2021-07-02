@@ -2,8 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
+import { formatCurrency } from "../tools/formatCurrency";
+import "./orderConfirmation.css";
 
 const OrderConfirmation = ({ order, onModalClose }) => {
+  const rooms = JSON.parse(order.rooms);
+
   const closeModal = () => {
     onModalClose();
   };
@@ -15,19 +19,43 @@ const OrderConfirmation = ({ order, onModalClose }) => {
           <button className="close-modal" onClick={closeModal}>
             x
           </button>
-          <h3>Your order was confirmed.</h3>
-          <h4>Thank you for choosing us.</h4>
+          <h3>Thank you for choosing us.</h3>
           <p>Here are your reservation details:</p>
-          <p>{`Order number: ${order._id}`}</p>
-          <p>
-            {`Check-in: ${order.dateFrom} Check-out: ${order.dateTo}`}
-          </p>
-          <p>
-            {`Guests: adults x ${order.numberOfAdults}`}{" "}
-            {order.numberOfChildren > 0 &&
-              ` children x ${order.numberOfChildren}`}
-          </p>
-          <p>{`Rooms: ${order.rooms}`}</p>
+          <ul>
+            <li>
+              <span>{"Order number: "}</span>
+              {order._id}
+            </li>
+            <li>
+              <span>{"Check-in: "}</span>
+              {order.dateFrom}
+            </li>
+            <li>
+              <span>{" Check-out: "}</span>
+              {order.dateTo}
+            </li>
+            <li>
+              <span>{"Guests: "}</span>
+              {`adults x ${order.numberOfAdults}`}{" "}
+              {order.numberOfChildren > 0 &&
+                ` children x ${order.numberOfChildren}`}
+            </li>
+            <li>
+              <span>{"Rooms: "}</span>
+              {rooms.map((room) => (
+                <div key={room.category}>
+                  {`${room.category} x ${room.quantity}`}
+                </div>
+              ))}
+            </li>
+            <li>
+              <span>{"Total: "}</span>
+              {formatCurrency(order.total)}
+            </li>
+          </ul>
+          <button className="btn btn-lg" onClick={closeModal}>
+            Close
+          </button>
         </div>
       </Zoom>
     </Modal>
