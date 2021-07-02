@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
 import { formatCurrency } from "../tools/formatCurrency";
+import moment from "moment";
 import "./orderConfirmation.css";
 
 const OrderConfirmation = ({ order, onModalClose }) => {
@@ -28,11 +29,11 @@ const OrderConfirmation = ({ order, onModalClose }) => {
             </li>
             <li>
               <span>{"Check-in: "}</span>
-              {order.dateFrom}
+              {moment(order.dateFrom).format("ll")}
             </li>
             <li>
               <span>{" Check-out: "}</span>
-              {order.dateTo}
+              {moment(order.dateTo).format("ll")}
             </li>
             <li>
               <span>{"Guests: "}</span>
