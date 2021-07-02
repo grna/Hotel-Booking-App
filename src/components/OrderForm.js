@@ -100,7 +100,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
               <div className="order-room row" key={room._id}>
                 <h4>{room.title}</h4>
                 <img src={room.image} alt={room.title}></img>
-                <spa>{formatCurrency(room.price)}</spa>
+                <span>{formatCurrency(room.price)}</span>
                 <div className="inline">
                   <label>{"Number of rooms: "}</label>
                   <select
