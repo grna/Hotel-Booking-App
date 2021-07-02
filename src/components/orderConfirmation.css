@@ -1,0 +1,16 @@
+.order-confirmation {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+.close-modal {
+  align-self: start;
+}
+.order-confirmation li {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 16px;
+}
+.order-confirmation li span {
+  font-weight: bold;
+}
