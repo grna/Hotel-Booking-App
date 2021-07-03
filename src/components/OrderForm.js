@@ -12,6 +12,15 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [selectedRooms, setSelectedRooms] = useState([]);
+  const [errors, setErrors] = useState({
+    count: 0,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    rooms: "",
+    adults: "",
+  });
 
   const populateSelectOptions = (quantity) => {
     let options = [];
@@ -26,20 +35,26 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   };
 
   const onRoomCountSelect = (e, _price) => {
-    let _room;
-    _room = selectedRooms.find((x) => x.category === e.target.name);
-    if (_room) {
+    let selectedRoom;
+    selectedRoom = selectedRooms.find(
+      (x) => x.category === e.target.name
+    );
+    if (selectedRoom) {
       const newArray = selectedRooms.slice();
-      _room.quantity = parseInt(e.target.value);
-      newArray.splice(selectedRooms.indexOf(_room), 1, _room);
+      selectedRoom.quantity = parseInt(e.target.value);
+      newArray.splice(
+        selectedRooms.indexOf(selectedRoom),
+        1,
+        selectedRoom
+      );
       setSelectedRooms(newArray);
     } else {
-      _room = {
+      selectedRoom = {
         category: e.target.name,
         price: parseInt(_price),
         quantity: parseInt(e.target.value),
       };
-      setSelectedRooms([...selectedRooms, _room]);
+      setSelectedRooms([...selectedRooms, selectedRoom]);
     }
   };
 
@@ -51,22 +66,81 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
     return total;
   }
 
+  const formIsValid = (e) => {
+    !e.target["firstName"].value &&
+      setErrors((errors) => ({
+        ...errors,
+        firstName: "First name is mandatory!",
+        count: errors.count++,
+      }));
+    !e.target["lastName"].value &&
+      setErrors((errors) => ({
+        ...errors,
+        lastName: "Last name is mandatory!",
+        count: errors.count++,
+      }));
+    !e.target["email"].value &&
+      setErrors((errors) => ({
+        ...errors,
+        email: "Email is mandatory!",
+        count: errors.count++,
+      }));
+    !e.target["email"].value.match(
+      "/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,}$/i"
+    ) &&
+      setErrors((errors) => ({
+        ...errors,
+        email: "Invalid email address!",
+        count: errors.count++,
+      }));
+    !e.target["phone"].value &&
+      setErrors((errors) => ({
+        ...errors,
+        phone: "Phone is mandatory!",
+        count: errors.count++,
+      }));
+    !e.target["phone"].value.match("/^[+]*[0-9]*$/g") &&
+      setErrors((errors) => ({
+        ...errors,
+        phone: "Invalid phone number!",
+        count: errors.count++,
+      }));
+    e.target["numberOfAdults"].value === "0" &&
+      setErrors((errors) => ({
+        ...errors,
+        adults: "Has to be at least 1 adult!",
+        count: errors.count++,
+      }));
+    selectedRooms.length === 0 &&
+      setErrors((errors) => ({
+        ...errors,
+        rooms: "Please select at least 1 room!",
+        count: errors.count++,
+      }));
+
+    if (errors.count > 0) {
+      return false;
+    }
+    return true;
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-    const order = {
-      dateFrom: dateFrom,
-      dateTo: dateTo,
-      numberOfAdults: numberOfAdults,
-      numberOfChildren: numberOfChildren,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phone: phone,
-      total: countTotal(),
-      rooms: JSON.stringify(selectedRooms),
-    };
-    createOrder(order);
+    if (formIsValid(e)) {
+      const order = {
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        numberOfAdults: numberOfAdults,
+        numberOfChildren: numberOfChildren,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        total: countTotal(),
+        rooms: JSON.stringify(selectedRooms),
+      };
+      createOrder(order);
+    }
   };
 
   return (
@@ -118,29 +192,26 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                     {room.quantity}
                   </label>
                 </div>
+                <span className="error">{errors.rooms}</span>
               </div>
             );
           })}
-          <div className="inline row">
-            <label>Number of adults:</label>
-            <select
-              name="numberOfAdults"
-              onChange={(e) => {
-                setNumberOfAdults(e.target.value);
-              }}
-            >
-              <option value={0}>0</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-              <option value={6}>6</option>
-              <option value={7}>7</option>
-              <option value={8}>8</option>
-              <option value={9}>9</option>
-              <option value={10}>10</option>
-            </select>
+          <div className="row">
+            <div className="inline">
+              <label>Number of adults:</label>
+              <select
+                name="numberOfAdults"
+                onChange={(e) => {
+                  setNumberOfAdults(e.target.value);
+                }}
+              >
+                <option key={0} value={0}>
+                  {0}
+                </option>
+                {populateSelectOptions(10)}
+              </select>
+            </div>
+            <span className="error">{errors.adults}</span>
           </div>
           <div className="inline row">
             <label>Number of children:</label>
@@ -150,17 +221,10 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                 setNumberOfChildren(e.target.value);
               }}
             >
-              <option value={0}>0</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-              <option value={6}>6</option>
-              <option value={7}>7</option>
-              <option value={8}>8</option>
-              <option value={9}>9</option>
-              <option value={10}>10</option>
+              <option key={0} value={0}>
+                {0}
+              </option>
+              {populateSelectOptions(10)}
             </select>
           </div>
           <div className="row multi-line">
@@ -172,6 +236,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                 setFirstName(e.target.value);
               }}
             ></input>
+            <span className="error">{errors.firstName}</span>
           </div>
 
           <div className="row multi-line">
@@ -183,6 +248,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                 setLastName(e.target.value);
               }}
             ></input>
+            <span className="error">{errors.lastName}</span>
           </div>
           <div className="row multi-line">
             <label>Email:</label>
@@ -193,6 +259,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                 setEmail(e.target.value);
               }}
             ></input>
+            <span className="error">{errors.email}</span>
           </div>
           <div className="row multi-line">
             <label>Phone:</label>
@@ -203,6 +270,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                 setPhone(e.target.value);
               }}
             ></input>
+            <span className="error">{errors.phone}</span>
           </div>
           <input
             type="submit"
