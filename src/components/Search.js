@@ -55,9 +55,7 @@ const Search = ({ searchAvailableRooms }) => {
             name="dateFrom"
             min={today}
           ></input>
-          {errorFrom && (
-            <span className="date-error">{errorFrom}</span>
-          )}
+          {errorFrom && <span className="error">{errorFrom}</span>}
         </label>
 
         <label>
@@ -68,7 +66,7 @@ const Search = ({ searchAvailableRooms }) => {
             name="dateTo"
             min={tomorrow}
           ></input>
-          {errorTo && <span className="date-error">{errorTo}</span>}
+          {errorTo && <span className="error">{errorTo}</span>}
         </label>
         <div>
           <input
