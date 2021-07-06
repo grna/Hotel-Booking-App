@@ -9,6 +9,8 @@ import "./orderConfirmation.css";
 const OrderConfirmation = ({ order, onModalClose }) => {
   const rooms = JSON.parse(order.rooms);
 
+  Modal.setAppElement("#app");
+
   const closeModal = () => {
     onModalClose();
   };

@@ -42,6 +42,7 @@ const Search = ({ searchAvailableRooms }) => {
   return (
     <div className="search">
       <img src="../static/images/facade.jpg" alt="facade.jpg"></img>
+      <h3>Please choose your visit dates:</h3>
       <form
         onSubmit={(e) => {
           onFormSubmit(e);
