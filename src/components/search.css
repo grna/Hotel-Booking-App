@@ -9,6 +9,7 @@
 .search img {
   object-fit: cover;
   height: 11em;
+  margin-bottom: 2rem;
 }
 .search form {
   display: flex;
@@ -17,10 +18,14 @@
 }
 .search form div,
 .search form input {
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 .search label input {
   margin-left: 0.5rem;
+}
+.guest-count {
+  margin-top: 3rem;
+  text-align: center;
 }
 
 @media only screen and (min-width: 1280px) {
