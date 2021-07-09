@@ -3,14 +3,18 @@ import {
   SEARCH_AVAILABLE_ROOMS,
   CLEAR_ORDER,
 } from "../ActionTypes";
+import { validateOrderForm } from "./errorsActions";
 
 const getAvailableCount = (room, orders) => {
   let count = room.quantity;
   orders.forEach((order) => {
     let orderedRooms = JSON.parse(order.rooms);
-    count -= orderedRooms.find(
+    let orderedRoom = orderedRooms.find(
       (x) => x.category === room.category
-    ).quantity;
+    );
+    if (orderedRoom) {
+      count -= orderedRoom.quantity;
+    }
   });
   return count;
 };
@@ -33,20 +37,24 @@ export const searchAvailableRooms =
   };
 
 export const createOrder = (order) => async (dispatch) => {
-  await fetch("http://localhost:3001/api/orders", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(order),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      dispatch({
-        type: CREATE_ORDER,
-        payload: data,
+  const valid = await dispatch(validateOrderForm(order));
+
+  if (valid) {
+    await fetch("http://localhost:3001/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: CREATE_ORDER,
+          payload: data,
+        });
       });
-    });
+  }
 };
 
 export const clearOrder = () => (dispatch) => {

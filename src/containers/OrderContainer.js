@@ -16,6 +16,7 @@ const OrderContainer = ({
   dateFrom,
   dateTo,
   order,
+  errors,
   searchAvailableRooms,
   createOrder,
   clearOrder,
@@ -32,6 +33,7 @@ const OrderContainer = ({
           rooms={availableRooms}
           dateFrom={dateFrom}
           dateTo={dateTo}
+          errors={errors}
           createOrder={createOrder}
         />
       )}
@@ -68,6 +70,7 @@ OrderContainer.propTypes = {
   dateFrom: PropTypes.string,
   dateTo: PropTypes.string,
   order: PropTypes.object,
+  errors: PropTypes.object,
   searchAvailableRooms: PropTypes.func.isRequired,
   createOrder: PropTypes.func.isRequired,
   clearOrder: PropTypes.func.isRequired,
@@ -79,6 +82,7 @@ const mapStateToProps = (state) => ({
   dateFrom: state.fromOrders.dateFrom,
   dateTo: state.fromOrders.dateTo,
   order: state.fromOrders.order,
+  errors: state.fromErrors.errors,
 });
 
 export default connect(mapStateToProps, {
