@@ -8,6 +8,7 @@ import thunk from "redux-thunk";
 import { roomsReducers } from "./reducers/roomsReducers";
 import { ordersReducers } from "./reducers/ordersReducers";
 import { fetchRooms } from "./actions/roomsActions";
+import { errorsReducers } from "./reducers/errorsReducers";
 
 const initialState = {};
 const composeEnhanser =
@@ -17,6 +18,7 @@ const store = createStore(
   combineReducers({
     fromRooms: roomsReducers,
     fromOrders: ordersReducers,
+    fromErrors: errorsReducers,
   }),
   initialState,
   composeEnhanser(applyMiddleware(thunk))

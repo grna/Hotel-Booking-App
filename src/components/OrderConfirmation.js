@@ -9,8 +9,6 @@ import "./orderConfirmation.css";
 const OrderConfirmation = ({ order, onModalClose }) => {
   const rooms = JSON.parse(order.rooms);
 
-  Modal.setAppElement("#app");
-
   const closeModal = () => {
     onModalClose();
   };
@@ -18,7 +16,7 @@ const OrderConfirmation = ({ order, onModalClose }) => {
   return (
     <Modal isOpen={true} onRequestClose={closeModal}>
       <Zoom>
-        <div className="order-confirmation">
+        <div id="orderConfirmation" className="order-confirmation">
           <button className="close-modal" onClick={closeModal}>
             x
           </button>

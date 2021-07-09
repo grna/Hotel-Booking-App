@@ -4,8 +4,15 @@ import Loader from "react-loader-spinner";
 import Fade from "react-reveal/Fade";
 import "./orderForm.css";
 import { formatCurrency } from "../tools/formatCurrency";
+import Error from "./common/Error";
 
-const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
+const OrderForm = ({
+  rooms,
+  dateFrom,
+  dateTo,
+  errors,
+  createOrder,
+}) => {
   const [showUserForm, setShowUserForm] = useState(false);
   const [showGuestCountForm, setShowGuestCountForm] = useState(false);
   const [numberOfAdults, setNumberOfAdults] = useState(0);
@@ -15,16 +22,6 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const [errors, setErrors] = useState({ errorsInit });
-
-  let errorsInit = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    rooms: "",
-    adults: "",
-  };
 
   const populateSelectOptions = (quantity) => {
     let options = [];
@@ -70,87 +67,21 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
     return total;
   }
 
-  const formIsValid = (e) => {
-    let count = 0;
-    setErrors({ errorsInit });
-
-    if (!e.target["firstName"].value) {
-      count++;
-      setErrors((errors) => ({
-        ...errors,
-        firstName: "First name is mandatory!",
-      }));
-    }
-    if (!e.target["lastName"].value) {
-      count++;
-      setErrors((errors) => ({
-        ...errors,
-        lastName: "Last name is mandatory!",
-      }));
-    }
-    if (
-      !e.target["email"].value.match(
-        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i
-      )
-    ) {
-      count++;
-      setErrors((errors) => ({
-        ...errors,
-        email: "Invalid email address!",
-      }));
-    }
-    if (!e.target["phone"].value) {
-      count++;
-      setErrors((errors) => ({
-        ...errors,
-        phone: "Phone is mandatory!",
-      }));
-    }
-    if (!e.target["phone"].value.match(/^[+]*[0-9]*$/g)) {
-      count++;
-      setErrors((errors) => ({
-        ...errors,
-        phone: "Invalid phone number!",
-      }));
-    }
-    if (e.target["numberOfAdults"].value === "0") {
-      count++;
-      setErrors((errors) => ({
-        ...errors,
-        adults: "Has to be at least 1 adult!",
-      }));
-    }
-    if (selectedRooms.length === 0) {
-      count++;
-      setErrors((errors) => ({
-        ...errors,
-        rooms: "Please select at least 1 room!",
-      }));
-    }
-
-    if (count > 0) {
-      return false;
-    }
-    return true;
-  };
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (formIsValid(e)) {
-      const order = {
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-        numberOfAdults: numberOfAdults,
-        numberOfChildren: numberOfChildren,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phone: phone,
-        total: countTotal(),
-        rooms: JSON.stringify(selectedRooms),
-      };
-      createOrder(order);
-    }
+    const order = {
+      dateFrom: dateFrom,
+      dateTo: dateTo,
+      numberOfAdults: numberOfAdults,
+      numberOfChildren: numberOfChildren,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      total: countTotal(),
+      rooms: JSON.stringify(selectedRooms),
+    };
+    createOrder(order);
   };
 
   const handleProceedClick = (e) => {
@@ -212,7 +143,9 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                       {room.quantity}
                     </label>
                   </div>
-                  <span className="error">{errors.rooms}</span>
+                  {errors.rooms && (
+                    <Error text={errors.rooms}></Error>
+                  )}
                 </div>
               );
             })}
@@ -238,7 +171,9 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                       {populateSelectOptions(10)}
                     </select>
                   </div>
-                  <span className="error">{errors.adults}</span>
+                  {errors.adults && (
+                    <Error text={errors.adults}></Error>
+                  )}
                 </div>
                 <div className="inline row">
                   <label>Number of children:</label>
@@ -280,7 +215,9 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                     setFirstName(e.target.value);
                   }}
                 ></input>
-                <span className="error">{errors.firstName}</span>
+                {errors.firstName && (
+                  <Error text={errors.firstName}></Error>
+                )}
               </div>
 
               <div className="row multi-line">
@@ -292,7 +229,9 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                     setLastName(e.target.value);
                   }}
                 ></input>
-                <span className="error">{errors.lastName}</span>
+                {errors.lastName && (
+                  <Error text={errors.lastName}></Error>
+                )}
               </div>
               <div className="row multi-line">
                 <label>Email:</label>
@@ -303,7 +242,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                     setEmail(e.target.value);
                   }}
                 ></input>
-                <span className="error">{errors.email}</span>
+                {errors.email && <Error text={errors.email}></Error>}
               </div>
               <div className="row multi-line">
                 <label>Phone:</label>
@@ -314,7 +253,7 @@ const OrderForm = ({ rooms, dateFrom, dateTo, createOrder }) => {
                     setPhone(e.target.value);
                   }}
                 ></input>
-                <span className="error">{errors.phone}</span>
+                {errors.phone && <Error text={errors.phone}></Error>}
               </div>
               <input
                 type="submit"
@@ -341,6 +280,7 @@ OrderForm.propTypes = {
       price: PropTypes.number,
     })
   ),
+  errors: PropTypes.object,
   dateFrom: PropTypes.string,
   dateTo: PropTypes.string,
   createOrder: PropTypes.func,
