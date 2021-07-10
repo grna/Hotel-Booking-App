@@ -3,7 +3,10 @@ import {
   SEARCH_AVAILABLE_ROOMS,
   CLEAR_ORDER,
 } from "../ActionTypes";
-import { validateOrderForm } from "./errorsActions";
+import {
+  validateOrderForm,
+  validateSearchForm,
+} from "./errorsActions";
 
 const getAvailableCount = (room, orders) => {
   let count = room.quantity;
@@ -21,19 +24,25 @@ const getAvailableCount = (room, orders) => {
 
 export const searchAvailableRooms =
   (rooms, _dateFrom, _dateTo) => async (dispatch) => {
-    const res = await fetch(
-      `http://localhost:3001/api/orders?from=${_dateFrom}&to=${_dateTo}`
+    const valid = await dispatch(
+      validateSearchForm(_dateFrom, _dateTo)
     );
-    const orders = await res.json();
-    const availableRooms = rooms.map((room) => ({
-      ...room,
-      quantity: getAvailableCount(room, orders),
-    }));
 
-    dispatch({
-      type: SEARCH_AVAILABLE_ROOMS,
-      payload: { availableRooms, _dateFrom, _dateTo },
-    });
+    if (valid) {
+      const res = await fetch(
+        `http://localhost:3001/api/orders?from=${_dateFrom}&to=${_dateTo}`
+      );
+      const orders = await res.json();
+      const availableRooms = rooms.map((room) => ({
+        ...room,
+        quantity: getAvailableCount(room, orders),
+      }));
+
+      dispatch({
+        type: SEARCH_AVAILABLE_ROOMS,
+        payload: { availableRooms, _dateFrom, _dateTo },
+      });
+    }
   };
 
 export const createOrder = (order) => async (dispatch) => {

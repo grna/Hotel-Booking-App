@@ -1,42 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "./search.css";
 import moment from "moment";
-import validator from "validator";
+import Error from "./common/Error";
 
-const Search = ({ searchAvailableRooms }) => {
-  const [errorFrom, SetErrorFrom] = useState("");
-  const [errorTo, SetErrorTo] = useState("");
+const Search = ({ errors, searchAvailableRooms }) => {
   const today = moment().format("YYYY-MM-DD");
   const tomorrow = moment().add(1, "days").format("YYYY-MM-DD");
 
-  // Prevent server call, validate input, pass on dates
   const onFormSubmit = (e) => {
     e.preventDefault();
-    SetErrorFrom("");
-    SetErrorTo("");
-    let valid = true;
-    let _dateFrom = moment(e.target[0].value)._i;
-    let _dateTo = moment(e.target[1].value)._i;
-
-    if (
-      !validator.isDate(e.target[0].value) ||
-      _dateFrom < today ||
-      _dateFrom > _dateTo
-    ) {
-      SetErrorFrom("Please enter a valid date!");
-      valid = false;
-    }
-    if (
-      !validator.isDate(e.target[1].value) ||
-      _dateTo < tomorrow ||
-      _dateTo < _dateFrom
-    ) {
-      SetErrorTo("Please enter a valid date!");
-      valid = false;
-    }
-
-    valid && searchAvailableRooms(_dateFrom, _dateTo);
+    searchAvailableRooms(e.target[0].value, e.target[1].value);
   };
 
   return (
@@ -56,7 +30,7 @@ const Search = ({ searchAvailableRooms }) => {
             name="dateFrom"
             min={today}
           ></input>
-          {errorFrom && <span className="error">{errorFrom}</span>}
+          {errors.from && <Error text={errors.from}></Error>}
         </label>
 
         <label>
@@ -67,7 +41,7 @@ const Search = ({ searchAvailableRooms }) => {
             name="dateTo"
             min={tomorrow}
           ></input>
-          {errorTo && <span className="error">{errorTo}</span>}
+          {errors.to && <Error text={errors.to}></Error>}
         </label>
         <div>
           <input
@@ -82,6 +56,7 @@ const Search = ({ searchAvailableRooms }) => {
 };
 
 Search.propTypes = {
+  errors: PropTypes.object,
   searchAvailableRooms: PropTypes.func,
 };
 

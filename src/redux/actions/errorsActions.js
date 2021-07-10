@@ -1,4 +1,49 @@
 import { FORM_IS_VALID, FORM_NOT_VALID } from "../ActionTypes";
+import validator from "validator";
+import moment from "moment";
+
+export const validateSearchForm =
+  (dateFrom, dateTo) => async (dispatch) => {
+    const today = moment().format("YYYY-MM-DD");
+    const tomorrow = moment().add(1, "days").format("YYYY-MM-DD");
+
+    let errors = {
+      count: 0,
+      from: "",
+      to: "",
+    };
+
+    if (
+      !validator.isDate(dateFrom) ||
+      dateFrom < today ||
+      dateFrom > dateTo
+    ) {
+      errors.count++;
+      errors.from = "Please enter a valid date!";
+    }
+    if (
+      !validator.isDate(dateTo) ||
+      dateTo < tomorrow ||
+      dateTo < dateFrom
+    ) {
+      errors.count++;
+      errors.to = "Please enter a valid date!";
+    }
+
+    if (errors.count > 0) {
+      dispatch({
+        type: FORM_NOT_VALID,
+        payload: errors,
+      });
+      return false;
+    }
+
+    dispatch({
+      type: FORM_IS_VALID,
+      payload: errors,
+    });
+    return true;
+  };
 
 export const validateOrderForm = (order) => async (dispatch) => {
   let errors = {
@@ -47,7 +92,6 @@ export const validateOrderForm = (order) => async (dispatch) => {
       type: FORM_NOT_VALID,
       payload: errors,
     });
-
     return false;
   }
 
@@ -55,6 +99,5 @@ export const validateOrderForm = (order) => async (dispatch) => {
     type: FORM_IS_VALID,
     payload: errors,
   });
-
   return true;
 };
