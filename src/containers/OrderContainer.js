@@ -24,6 +24,7 @@ const OrderContainer = ({
   return (
     <div>
       <Search
+        errors={errors}
         searchAvailableRooms={(_dateFrom, _dateTo) => {
           searchAvailableRooms(rooms, _dateFrom, _dateTo);
         }}
