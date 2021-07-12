@@ -4,6 +4,7 @@ import {
   CLEAR_ORDER,
 } from "../ActionTypes";
 import {
+  createOrderFailed,
   validateOrderForm,
   validateSearchForm,
 } from "./errorsActions";
@@ -49,7 +50,7 @@ export const createOrder = (order) => async (dispatch) => {
   const valid = await dispatch(validateOrderForm(order));
 
   if (valid) {
-    await fetch("http://localhost:3001/api/orders", {
+    await fetch("http://localhost:3002/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +63,8 @@ export const createOrder = (order) => async (dispatch) => {
           type: CREATE_ORDER,
           payload: data,
         });
-      });
+      })
+      .catch(dispatch(createOrderFailed(order)));
   }
 };
 

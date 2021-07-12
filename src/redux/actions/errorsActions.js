@@ -1,6 +1,19 @@
-import { FORM_IS_VALID, FORM_NOT_VALID } from "../ActionTypes";
+import {
+  CREATE_ORDER_FAIL,
+  FORM_IS_VALID,
+  FORM_NOT_VALID,
+} from "../ActionTypes";
 import validator from "validator";
 import moment from "moment";
+
+export const createOrderFailed = (order) => (dispatch) => {
+  let errors = {
+    count: 1,
+    orderFailed:
+      "Oops! Something went wrong when placing your order. Please try again later.",
+  };
+  dispatch({ type: CREATE_ORDER_FAIL, payload: { order, errors } });
+};
 
 export const validateSearchForm =
   (dateFrom, dateTo) => async (dispatch) => {

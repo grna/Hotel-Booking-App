@@ -39,7 +39,11 @@ const OrderContainer = ({
         />
       )}
       {order && (
-        <OrderConfirmation order={order} onModalClose={clearOrder} />
+        <OrderConfirmation
+          order={order}
+          errors={errors}
+          onModalClose={clearOrder}
+        />
       )}
     </div>
   );
