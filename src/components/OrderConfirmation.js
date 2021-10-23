@@ -15,7 +15,11 @@ const OrderConfirmation = ({ order, errors, onModalClose }) => {
   };
 
   return (
-    <Modal isOpen={true} onRequestClose={closeModal}>
+    <Modal
+      ariaHideApp={false}
+      isOpen={true}
+      onRequestClose={closeModal}
+    >
       <Zoom>
         {
           <div id="orderConfirmation" className="order-confirmation">

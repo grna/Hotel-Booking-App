@@ -6,12 +6,13 @@ import {
 import validator from "validator";
 import moment from "moment";
 
-export const createOrderFailed = (order) => (dispatch) => {
+export const createOrderFailed = (order, error) => (dispatch) => {
   let errors = {
     count: 1,
     orderFailed:
       "Oops! Something went wrong when placing your order. Please try again later.",
   };
+  console.log(error);
   dispatch({ type: CREATE_ORDER_FAIL, payload: { order, errors } });
 };
 

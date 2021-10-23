@@ -50,7 +50,7 @@ export const createOrder = (order) => async (dispatch) => {
   const valid = await dispatch(validateOrderForm(order));
 
   if (valid) {
-    await fetch("http://localhost:3002/api/orders", {
+    await fetch("http://localhost:3001/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const createOrder = (order) => async (dispatch) => {
           payload: data,
         });
       })
-      .catch(dispatch(createOrderFailed(order)));
+      .catch((error) => dispatch(createOrderFailed(order, error)));
   }
 };
 
