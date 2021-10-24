@@ -44,11 +44,49 @@ const Order = mongoose.model(
   })
 );
 
+const User = mongoose.model(
+  "users",
+  new mongoose.Schema({
+    _id: { type: String, default: shortid.generate },
+    token: {
+      type: String,
+      default: shortid.generate + shortid.generate,
+    },
+    firstName: String,
+    lastName: String,
+    email: String,
+    password: String,
+  })
+);
+
 const corsOptions = {
   origin: "http://localhost:3000",
 };
 
 app.use(cors(corsOptions));
+
+// For testing only
+app.get("/api/users", async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
+});
+
+// For testing only
+app.delete("/api/users", async (req, res) => {
+  const deletedUsers = await User.deleteMany();
+  res.send(deletedUsers);
+});
+
+app.put("/api/users", async (req, res) => {
+  if (User.exists({ email: req.body.email })) {
+    res.status(400).send("User already exists");
+    return;
+  }
+
+  const newUser = new User(req.body);
+  const savedUser = await newUser.save();
+  res.send(savedUser);
+});
 
 app.get("/api/rooms", async (req, res) => {
   const rooms = await Room.find({});
