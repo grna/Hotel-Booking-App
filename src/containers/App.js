@@ -5,6 +5,7 @@ import Footer from "../components/common/Footer";
 import About from "../components/About";
 import RoomsContainer from "../containers/RoomsContainer";
 import OrderContainer from "./OrderContainer";
+import Login from "../components/Login";
 
 const App = () => (
   <div className="app grid-container">
@@ -14,6 +15,7 @@ const App = () => (
         <Route exact path="/" component={OrderContainer} />
         <Route path="/rooms" component={RoomsContainer} />
         <Route path="/about" component={About} />
+        <Route path="/auth" component={Login} />
       </Switch>
     </main>
     <Footer />
