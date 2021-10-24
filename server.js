@@ -77,15 +77,32 @@ app.delete("/api/users", async (req, res) => {
   res.send(deletedUsers);
 });
 
-app.put("/api/users", async (req, res) => {
-  if (User.exists({ email: req.body.email })) {
-    res.status(400).send("User already exists");
-    return;
-  }
+app.post("/api/users", async (req, res) => {
+  User.exists({ email: req.body.email }, async (err, exists) => {
+    if (!exists) {
+      res.status(400).send("User does not exist");
+      return;
+    }
 
-  const newUser = new User(req.body);
-  const savedUser = await newUser.save();
-  res.send(savedUser);
+    const users = await User.find({ email: req.body.email });
+    if (users[0].password !== req.body.password) {
+      res.status(401).send("Incorrect password");
+      return;
+    }
+    res.json(users[0]);
+  });
+});
+
+app.put("/api/users", async (req, res) => {
+  User.exists({ email: req.body.email }, async (err, exits) => {
+    if (exits) {
+      res.status(400).send("User already exists");
+    } else {
+      const newUser = new User(req.body);
+      const savedUser = await newUser.save();
+      res.send(savedUser);
+    }
+  });
 });
 
 app.get("/api/rooms", async (req, res) => {
