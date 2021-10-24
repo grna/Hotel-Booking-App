@@ -6,8 +6,11 @@ import About from "../components/About";
 import RoomsContainer from "../containers/RoomsContainer";
 import OrderContainer from "./OrderContainer";
 import Login from "../components/Login";
+import { connect } from "react-redux";
+import { userSignUp } from "../redux/actions/userActions";
+import PropTypes from "prop-types";
 
-const App = () => (
+const App = ({ user, userSignUp }) => (
   <div className="app grid-container">
     <Header />
     <main>
@@ -15,11 +18,29 @@ const App = () => (
         <Route exact path="/" component={OrderContainer} />
         <Route path="/rooms" component={RoomsContainer} />
         <Route path="/about" component={About} />
-        <Route path="/auth" component={Login} />
+        <Route path="/auth">
+          <Login userSignUp={userSignUp}></Login>
+        </Route>
+        {user}
       </Switch>
     </main>
     <Footer />
   </div>
 );
 
-export default App;
+App.propTypes = {
+  user: PropTypes.shape({
+    _id: PropTypes.string,
+    token: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+  }),
+  userSignUp: PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.fromUser.user,
+});
+
+export default connect(mapStateToProps, { userSignUp })(App);

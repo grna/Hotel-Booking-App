@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const Login = (props) => {
+const Login = ({ userSignUp }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -10,6 +10,18 @@ const Login = (props) => {
 
   const onSignUpSubmit = (e) => {
     e.preventDefault();
+
+    const form = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      confirm: confirm,
+    };
+
+    if (password === confirm) {
+      userSignUp(form);
+    }
   };
 
   return (
@@ -59,6 +71,8 @@ const Login = (props) => {
   );
 };
 
-Login.propTypes = {};
+Login.propTypes = {
+  userSignUp: PropTypes.func,
+};
 
 export default Login;

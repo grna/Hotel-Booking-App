@@ -9,6 +9,7 @@ import { roomsReducers } from "./reducers/roomsReducers";
 import { ordersReducers } from "./reducers/ordersReducers";
 import { fetchRooms } from "./actions/roomsActions";
 import { errorsReducers } from "./reducers/errorsReducers";
+import { userReducers } from "./reducers/userReducers";
 
 const initialState = {};
 const composeEnhanser =
@@ -19,6 +20,7 @@ const store = createStore(
     fromRooms: roomsReducers,
     fromOrders: ordersReducers,
     fromErrors: errorsReducers,
+    fromUser: userReducers,
   }),
   initialState,
   composeEnhanser(applyMiddleware(thunk))
