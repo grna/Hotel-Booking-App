@@ -8,8 +8,14 @@ import LogIn from "../components/LogIn";
 const UserContainer = ({ user, userSignUp, userLogIn }) => {
   return (
     <div>
-      <LogIn userLogIn={userLogIn} />
-      <SignUp userSignUp={userSignUp} />
+      {!user ? (
+        <>
+          <LogIn userLogIn={userLogIn} />
+          <SignUp userSignUp={userSignUp} />
+        </>
+      ) : (
+        <div>{user.firstName + user.lastName}</div>
+      )}
     </div>
   );
 };
