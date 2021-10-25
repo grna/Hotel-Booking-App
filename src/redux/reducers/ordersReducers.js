@@ -4,6 +4,7 @@ import {
   SEARCH_AVAILABLE_ROOMS,
   CREATE_ORDER_FAIL,
   FETCH_USER_ORDERS_SUCESS,
+  USER_LOGOUT_SUCCESS,
 } from "../ActionTypes";
 
 export const ordersReducers = (state = {}, action) => {
@@ -24,6 +25,8 @@ export const ordersReducers = (state = {}, action) => {
       return {
         order: action.payload.order,
       };
+    case USER_LOGOUT_SUCCESS:
+      return { userOrders: null };
     default:
       return state;
   }

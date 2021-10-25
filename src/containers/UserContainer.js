@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { userSignUp, userLogIn } from "../redux/actions/userActions";
+import {
+  userSignUp,
+  userLogIn,
+  userLogOut,
+} from "../redux/actions/userActions";
 import { connect } from "react-redux";
 import SignUp from "../components/SignUp";
 import LogIn from "../components/LogIn";
@@ -11,7 +15,12 @@ const UserContainer = ({
   userOrders,
   userSignUp,
   userLogIn,
+  userLogOut,
 }) => {
+  const onLogOutClick = () => {
+    userLogOut();
+  };
+
   return (
     <div>
       {!user && (
@@ -27,6 +36,14 @@ const UserContainer = ({
           {userOrders.map((order) => (
             <Order key={order._id} order={order} />
           ))}
+          <button
+            className="btn btn-lg"
+            onClick={() => {
+              onLogOutClick();
+            }}
+          >
+            LogOut
+          </button>
         </div>
       )}
     </div>
@@ -44,6 +61,7 @@ UserContainer.propTypes = {
   userOrders: PropTypes.array,
   userSignUp: PropTypes.func,
   userLogIn: PropTypes.func,
+  userLogOut: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -51,6 +69,8 @@ const mapStateToProps = (state) => ({
   userOrders: state.fromOrders.userOrders,
 });
 
-export default connect(mapStateToProps, { userSignUp, userLogIn })(
-  UserContainer
-);
+export default connect(mapStateToProps, {
+  userSignUp,
+  userLogIn,
+  userLogOut,
+})(UserContainer);
