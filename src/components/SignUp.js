@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import "./signup.css";
 
 const SignUp = ({ userSignUp }) => {
   const [firstName, setFirstName] = useState("");
@@ -25,11 +26,13 @@ const SignUp = ({ userSignUp }) => {
   };
 
   return (
-    <div>
+    <div className="signup-wrapper">
+      <h4>SignUp:</h4>
       <form
         onSubmit={(e) => {
           onSignUpSubmit(e);
         }}
+        className="signup-form"
       >
         <label>First Name:</label>
         <input
