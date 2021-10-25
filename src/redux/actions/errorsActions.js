@@ -2,9 +2,17 @@ import {
   CREATE_ORDER_FAIL,
   FORM_IS_VALID,
   FORM_NOT_VALID,
+  USER_LOGIN_FAILED,
 } from "../ActionTypes";
 import validator from "validator";
 import moment from "moment";
+
+export const userAuthFailed = (error) => (dispatch) => {
+  dispatch({
+    type: USER_LOGIN_FAILED,
+    payload: error,
+  });
+};
 
 export const createOrderFailed = (order, error) => (dispatch) => {
   let errors = {
@@ -14,6 +22,55 @@ export const createOrderFailed = (order, error) => (dispatch) => {
   };
   console.log(error);
   dispatch({ type: CREATE_ORDER_FAIL, payload: { order, errors } });
+};
+
+export const validateSignUpForm = (form) => (dispatch) => {
+  let errors = {
+    count: 0,
+    firstName: "",
+    lastName: "",
+    emali: "",
+    password: "",
+  };
+
+  if (!form.firstName) {
+    errors.count++;
+    errors.firstName = "First name is mandatory!";
+  }
+  if (!form.lastName) {
+    errors.count++;
+    errors.lastName = "Last name is mandatory!";
+  }
+  if (!form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i)) {
+    errors.count++;
+    errors.email = "Invalid email address!";
+  }
+  if (
+    !form.password.match(
+      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm
+    )
+  ) {
+    errors.count++;
+    errors.password = "Password must contain UPPER & numeric values!";
+  }
+  if (form.password !== form.confirm) {
+    errors.count++;
+    errors.confirm = "Password does not match!";
+  }
+
+  if (errors.count > 0) {
+    dispatch({
+      type: FORM_NOT_VALID,
+      payload: errors,
+    });
+    return false;
+  }
+
+  dispatch({
+    type: FORM_IS_VALID,
+    payload: errors,
+  });
+  return true;
 };
 
 export const validateSearchForm =

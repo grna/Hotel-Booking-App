@@ -13,6 +13,7 @@ import Order from "../components/Order";
 const UserContainer = ({
   user,
   userOrders,
+  errors,
   userSignUp,
   userLogIn,
   userLogOut,
@@ -25,8 +26,8 @@ const UserContainer = ({
     <div>
       {!user && (
         <>
-          <LogIn userLogIn={userLogIn} />
-          <SignUp userSignUp={userSignUp} />
+          <LogIn errors={errors} userLogIn={userLogIn} />
+          <SignUp errors={errors} userSignUp={userSignUp} />
         </>
       )}
       {userOrders && (
@@ -59,6 +60,7 @@ UserContainer.propTypes = {
     email: PropTypes.string,
   }),
   userOrders: PropTypes.array,
+  errors: PropTypes.object,
   userSignUp: PropTypes.func,
   userLogIn: PropTypes.func,
   userLogOut: PropTypes.func,
@@ -67,6 +69,7 @@ UserContainer.propTypes = {
 const mapStateToProps = (state) => ({
   user: state.fromUser.user,
   userOrders: state.fromOrders.userOrders,
+  errors: state.fromErrors.errors,
 });
 
 export default connect(mapStateToProps, {
