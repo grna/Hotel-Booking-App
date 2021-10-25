@@ -4,6 +4,7 @@ import { userSignUp, userLogIn } from "../redux/actions/userActions";
 import { connect } from "react-redux";
 import SignUp from "../components/SignUp";
 import LogIn from "../components/LogIn";
+import Order from "../components/Order";
 
 const UserContainer = ({
   user,
@@ -19,10 +20,15 @@ const UserContainer = ({
           <SignUp userSignUp={userSignUp} />
         </>
       )}
-      {userOrders &&
-        userOrders.map((order) => (
-          <div key={order._id}>{order._id}</div>
-        ))}
+      {userOrders && (
+        <div>
+          <p>{`Welcome ${user.firstName} ${user.lastName}`}</p>
+          <h4>Here are your orders:</h4>
+          {userOrders.map((order) => (
+            <Order key={order._id} order={order} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
