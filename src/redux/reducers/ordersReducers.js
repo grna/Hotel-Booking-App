@@ -3,6 +3,7 @@ import {
   CREATE_ORDER,
   SEARCH_AVAILABLE_ROOMS,
   CREATE_ORDER_FAIL,
+  FETCH_USER_ORDERS_SUCESS,
 } from "../ActionTypes";
 
 export const ordersReducers = (state = {}, action) => {
@@ -15,6 +16,8 @@ export const ordersReducers = (state = {}, action) => {
       };
     case CREATE_ORDER:
       return { order: action.payload };
+    case FETCH_USER_ORDERS_SUCESS:
+      return { userOrders: action.payload };
     case CLEAR_ORDER:
       return { order: null };
     case CREATE_ORDER_FAIL:

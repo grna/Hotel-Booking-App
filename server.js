@@ -141,6 +141,11 @@ app.get("/api/orders", async (req, res) => {
   }
 });
 
+app.get("/api/orders/:email", async (req, res) => {
+  const orders = await Order.find({ email: req.params.email });
+  res.send(orders);
+});
+
 app.post("/api/orders", async (req, res) => {
   const newOrder = new Order(req.body);
   const savedOrder = await newOrder.save();

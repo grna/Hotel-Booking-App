@@ -5,17 +5,24 @@ import { connect } from "react-redux";
 import SignUp from "../components/SignUp";
 import LogIn from "../components/LogIn";
 
-const UserContainer = ({ user, userSignUp, userLogIn }) => {
+const UserContainer = ({
+  user,
+  userOrders,
+  userSignUp,
+  userLogIn,
+}) => {
   return (
     <div>
-      {!user ? (
+      {!user && (
         <>
           <LogIn userLogIn={userLogIn} />
           <SignUp userSignUp={userSignUp} />
         </>
-      ) : (
-        <div>{user.firstName + user.lastName}</div>
       )}
+      {userOrders &&
+        userOrders.map((order) => (
+          <div key={order._id}>{order._id}</div>
+        ))}
     </div>
   );
 };
@@ -28,12 +35,14 @@ UserContainer.propTypes = {
     lastName: PropTypes.string,
     email: PropTypes.string,
   }),
+  userOrders: PropTypes.array,
   userSignUp: PropTypes.func,
   userLogIn: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   user: state.fromUser.user,
+  userOrders: state.fromOrders.userOrders,
 });
 
 export default connect(mapStateToProps, { userSignUp, userLogIn })(

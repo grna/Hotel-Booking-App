@@ -2,6 +2,7 @@ import {
   CREATE_ORDER,
   SEARCH_AVAILABLE_ROOMS,
   CLEAR_ORDER,
+  FETCH_USER_ORDERS_SUCESS,
 } from "../ActionTypes";
 import {
   createOrderFailed,
@@ -66,6 +67,20 @@ export const createOrder = (order) => async (dispatch) => {
       })
       .catch((error) => dispatch(createOrderFailed(order, error)));
   }
+};
+
+export const fetchUserOrders = (email) => async (dispatch) => {
+  await fetch(`http://localhost:3001/api/orders/${email}`, {
+    method: "GET",
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      dispatch({
+        type: FETCH_USER_ORDERS_SUCESS,
+        payload: data,
+      });
+    })
+    .catch((error) => console.log(error));
 };
 
 export const clearOrder = () => (dispatch) => {
