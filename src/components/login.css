@@ -1,0 +1,13 @@
+.login-wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.login-form {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.login-form .btn {
+  margin-top: 32px;
+}

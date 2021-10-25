@@ -1,0 +1,12 @@
+.signup-wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+.signup-form {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.signup-form .btn {
+  margin-top: 32px;
+}

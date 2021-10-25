@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import "./login.css";
 
 const LogIn = ({ userLogIn }) => {
   const [email, setEmail] = useState("");
@@ -15,8 +16,9 @@ const LogIn = ({ userLogIn }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={(e) => onLogInSubmit(e)}>
+    <div className="login-wrapper">
+      <h4>Login:</h4>
+      <form onSubmit={(e) => onLogInSubmit(e)} className="login-form">
         <label>Email:</label>
         <input
           type="text"
