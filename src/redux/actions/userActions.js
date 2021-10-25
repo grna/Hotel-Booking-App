@@ -1,5 +1,6 @@
 import {
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT_SUCCESS,
   USER_SIGNUP_SUCESS,
 } from "../ActionTypes";
 import { fetchUserOrders } from "./ordersActions";
@@ -39,4 +40,8 @@ export const userLogIn = (form) => async (dispatch) => {
       });
     })
     .catch((error) => console.log(error));
+};
+
+export const userLogOut = () => (dispatch) => {
+  dispatch({ type: USER_LOGOUT_SUCCESS });
 };
