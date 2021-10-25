@@ -3,7 +3,6 @@ import {
   SEARCH_AVAILABLE_ROOMS,
   CLEAR_ORDER,
   FETCH_USER_ORDERS_SUCESS,
-  USER_LOGOUT_SUCCESS,
 } from "../ActionTypes";
 import {
   createOrderFailed,

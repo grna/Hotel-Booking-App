@@ -2,6 +2,7 @@ import {
   CREATE_ORDER_FAIL,
   FORM_IS_VALID,
   FORM_NOT_VALID,
+  USER_LOGIN_FAILED,
 } from "../ActionTypes";
 
 const errors = {
@@ -27,6 +28,10 @@ export const errorsReducers = (state = { errors }, action) => {
     case CREATE_ORDER_FAIL:
       return {
         errors: action.payload.errors,
+      };
+    case USER_LOGIN_FAILED:
+      return {
+        errors: action.payload,
       };
     default:
       return state;
