@@ -2,6 +2,7 @@ import {
   USER_LOGIN_SUCCESS,
   USER_SIGNUP_SUCESS,
 } from "../ActionTypes";
+import { fetchUserOrders } from "./ordersActions";
 
 export const userSignUp = (form) => async (dispatch) => {
   await fetch("http://localhost:3001/api/users", {
@@ -31,6 +32,7 @@ export const userLogIn = (form) => async (dispatch) => {
   })
     .then((res) => res.json())
     .then((user) => {
+      dispatch(fetchUserOrders(user.email));
       dispatch({
         type: USER_LOGIN_SUCCESS,
         payload: user,
