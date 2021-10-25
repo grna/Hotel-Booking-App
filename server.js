@@ -50,7 +50,7 @@ const User = mongoose.model(
     _id: { type: String, default: shortid.generate },
     token: {
       type: String,
-      default: shortid.generate + shortid.generate,
+      default: shortid.generate,
     },
     firstName: String,
     lastName: String,
@@ -100,7 +100,7 @@ app.put("/api/users", async (req, res) => {
     } else {
       const newUser = new User(req.body);
       const savedUser = await newUser.save();
-      res.send(savedUser);
+      res.json(savedUser);
     }
   });
 });
@@ -116,6 +116,7 @@ app.post("/api/rooms", async (req, res) => {
   res.send(savedRoom);
 });
 
+// For testing only
 app.delete("/api/rooms/:id", async (req, res) => {
   const deletedRoom = await Room.findByIdAndDelete(req.params.id);
   res.send(deletedRoom);
