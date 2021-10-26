@@ -27,11 +27,12 @@ const UserContainer = ({
       {!user && (
         <>
           <LogIn errors={errors} userLogIn={userLogIn} />
+          <p>- or -</p>
           <SignUp errors={errors} userSignUp={userSignUp} />
         </>
       )}
       {userOrders && (
-        <div>
+        <div className="user-orders">
           <p>{`Welcome ${user.firstName} ${user.lastName}`}</p>
           <h4>Here are your orders:</h4>
           {userOrders.map((order) => (

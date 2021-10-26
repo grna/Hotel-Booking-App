@@ -60,6 +60,9 @@ main {
   font-size: 0.8rem;
   font-weight: bold;
 }
+ul {
+  padding: 0;
+}
 
 @media only screen and (min-width: 1280px) {
   main {

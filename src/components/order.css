@@ -6,11 +6,20 @@
 .close-modal {
   align-self: start;
 }
-.order-confirmation li {
+.user-orders {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  text-align: center;
+}
+.user-orders .btn {
+  align-self: center;
+}
+.order-wrapper li {
   text-align: center;
   margin: 20px 0;
   font-size: 16px;
 }
-.order-confirmation li span {
+.order-wrapper li span {
   font-weight: bold;
 }
