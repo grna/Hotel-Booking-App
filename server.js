@@ -152,10 +152,9 @@ app.post("/api/orders", async (req, res) => {
   res.send(savedOrder);
 });
 
-// For testing only
-app.delete("/api/orders", async (req, res) => {
-  const deletedOrders = await Order.deleteMany();
-  res.send(deletedOrders);
+app.delete("/api/orders/:id", async (req, res) => {
+  const deletedOrder = await Order.findByIdAndDelete(req.params.id);
+  res.send(deletedOrder);
 });
 
 const port = process.env.PORT || 3001;

@@ -5,6 +5,8 @@ import {
   CREATE_ORDER_FAIL,
   FETCH_USER_ORDERS_SUCESS,
   USER_LOGOUT_SUCCESS,
+  DELETE_ORDER_SUCCESS,
+  DELETE_ORDER_FAILED,
 } from "../ActionTypes";
 
 export const ordersReducers = (state = {}, action) => {
@@ -27,6 +29,14 @@ export const ordersReducers = (state = {}, action) => {
       };
     case USER_LOGOUT_SUCCESS:
       return { userOrders: null };
+    case DELETE_ORDER_SUCCESS:
+      return {
+        userOrders: action.payload,
+      };
+    case DELETE_ORDER_FAILED:
+      return {
+        userOrders: action.payload,
+      };
     default:
       return state;
   }
