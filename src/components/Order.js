@@ -2,12 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { formatCurrency } from "../tools/formatCurrency";
+import "./order.css";
 
 const Order = ({ order }) => {
   const rooms = JSON.parse(order.rooms);
 
   return (
-    <div className="order-confirmation">
+    <div className="order-wrapper">
       <ul>
         <li>
           <span>{"Order number: "}</span>

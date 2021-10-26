@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
-import "./orderConfirmation.css";
 import Error from "../components/common/Error";
 import Order from "./Order";
 
