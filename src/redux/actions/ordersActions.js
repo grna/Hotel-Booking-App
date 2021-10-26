@@ -3,12 +3,39 @@ import {
   SEARCH_AVAILABLE_ROOMS,
   CLEAR_ORDER,
   FETCH_USER_ORDERS_SUCESS,
+  DELETE_ORDER_SUCCESS,
+  DELETE_ORDER_FAILED,
 } from "../ActionTypes";
 import {
   createOrderFailed,
   validateOrderForm,
   validateSearchForm,
 } from "./errorsActions";
+
+export const deleteUserOrder =
+  (orderId) => async (dispatch, getState) => {
+    await fetch(`http://localhost:3001/api/orders/${orderId}`, {
+      method: "DELETE",
+    }).then((res) => {
+      const userOrders = getState().fromOrders.userOrders;
+
+      if (!res.ok) {
+        dispatch({
+          type: DELETE_ORDER_FAILED,
+          payload: userOrders,
+        });
+        return;
+      }
+
+      const newOrderArray = userOrders.slice().filter((order) => {
+        return order._id !== orderId;
+      });
+      dispatch({
+        type: DELETE_ORDER_SUCCESS,
+        payload: newOrderArray,
+      });
+    });
+  };
 
 const getAvailableCount = (room, orders) => {
   let count = room.quantity;

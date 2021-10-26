@@ -5,6 +5,7 @@ import {
   userLogIn,
   userLogOut,
 } from "../redux/actions/userActions";
+import { deleteUserOrder } from "../redux/actions/ordersActions";
 import { connect } from "react-redux";
 import SignUp from "../components/SignUp";
 import LogIn from "../components/LogIn";
@@ -17,7 +18,13 @@ const UserContainer = ({
   userSignUp,
   userLogIn,
   userLogOut,
+  deleteUserOrder,
 }) => {
+  const onDeleteOrderClick = (e, orderId) => {
+    e.preventDefault();
+    deleteUserOrder(orderId);
+  };
+
   const onLogOutClick = () => {
     userLogOut();
   };
@@ -36,7 +43,15 @@ const UserContainer = ({
           <p>{`Welcome ${user.firstName} ${user.lastName}`}</p>
           <h4>Here are your orders:</h4>
           {userOrders.map((order) => (
-            <Order key={order._id} order={order} />
+            <div key={order._id}>
+              <Order order={order} />
+              <button
+                className="btn btn-lg"
+                onClick={(e) => onDeleteOrderClick(e, order._id)}
+              >
+                Delete
+              </button>
+            </div>
           ))}
           <button
             className="btn btn-lg"
@@ -65,6 +80,7 @@ UserContainer.propTypes = {
   userSignUp: PropTypes.func,
   userLogIn: PropTypes.func,
   userLogOut: PropTypes.func,
+  deleteUserOrder: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -77,4 +93,5 @@ export default connect(mapStateToProps, {
   userSignUp,
   userLogIn,
   userLogOut,
+  deleteUserOrder,
 })(UserContainer);
