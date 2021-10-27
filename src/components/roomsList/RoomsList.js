@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Loader from "react-loader-spinner";
-import Room from "./Room";
+import Room from "../room/Room";
 
 const RoomsList = ({ rooms }) => {
   return (

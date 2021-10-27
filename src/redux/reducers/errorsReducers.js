@@ -1,31 +1,24 @@
 import {
-  CREATE_ORDER_FAIL,
-  FORM_IS_VALID,
-  FORM_NOT_VALID,
+  CREATE_ORDER_FAILED,
+  FETCH_USER_ORDERS_FAILED,
+  VALIDATE_FORM_SUCCESS,
+  VALIDATE_FORM_FAILED,
   USER_LOGIN_FAILED,
 } from "../ActionTypes";
 
-const errors = {
-  count: 0,
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  rooms: "",
-  adults: "",
-};
+const errors = {};
 
 export const errorsReducers = (state = { errors }, action) => {
   switch (action.type) {
-    case FORM_NOT_VALID:
+    case VALIDATE_FORM_FAILED:
       return {
         errors: action.payload,
       };
-    case FORM_IS_VALID:
+    case VALIDATE_FORM_SUCCESS:
       return {
         errors: action.payload,
       };
-    case CREATE_ORDER_FAIL:
+    case CREATE_ORDER_FAILED:
       return {
         errors: action.payload.errors,
       };
@@ -33,6 +26,8 @@ export const errorsReducers = (state = { errors }, action) => {
       return {
         errors: action.payload,
       };
+    case FETCH_USER_ORDERS_FAILED:
+      return { errors: action.payload };
     default:
       return state;
   }

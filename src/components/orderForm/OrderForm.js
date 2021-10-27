@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import Loader from "react-loader-spinner";
 import Fade from "react-reveal/Fade";
 import "./orderForm.css";
-import { formatCurrency } from "../tools/formatCurrency";
-import Error from "./common/Error";
+import { formatCurrency } from "../../tools/formatCurrency";
+import Error from "../common/Error";
 
 const OrderForm = ({
   rooms,

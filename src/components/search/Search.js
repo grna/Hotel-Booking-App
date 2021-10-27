@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./search.css";
 import moment from "moment";
-import Error from "./common/Error";
+import Error from "../common/Error";
 
 const Search = ({ errors, searchAvailableRooms }) => {
   const today = moment().format("YYYY-MM-DD");

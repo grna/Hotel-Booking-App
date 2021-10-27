@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { formatCurrency } from "../tools/formatCurrency";
+import { formatCurrency } from "../../tools/formatCurrency";
 import "./room.css";
 
 const Room = ({ room }) => {

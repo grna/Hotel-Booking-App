@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
-import About from "../components/About";
+import Header from "../components/common/header/Header";
+import Footer from "../components/common/footer/Footer";
+import About from "../components/about/About";
 import RoomsContainer from "../containers/RoomsContainer";
 import OrderContainer from "./OrderContainer";
 import UserContainer from "./UserContainer";

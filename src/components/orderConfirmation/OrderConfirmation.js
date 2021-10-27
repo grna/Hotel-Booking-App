@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
-import Error from "../components/common/Error";
-import Order from "./Order";
+import Error from "../common/Error";
+import Order from "../order/Order";
 
 const OrderConfirmation = ({ order, errors, onModalClose }) => {
   const closeModal = () => {
