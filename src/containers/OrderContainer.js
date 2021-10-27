@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Search from "../components/Search";
+import Search from "../components/search/Search";
 import {
   searchAvailableRooms,
   createOrder,
   clearOrder,
 } from "../redux/actions/ordersActions";
-import OrderForm from "../components/OrderForm";
-import OrderConfirmation from "../components/OrderConfirmation";
+import OrderForm from "../components/orderForm/OrderForm";
+import OrderConfirmation from "../components/orderConfirmation/OrderConfirmation";
 
 const OrderContainer = ({
   rooms,

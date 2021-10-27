@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import RoomsList from "../components/RoomsList";
+import RoomsList from "../components/roomsList/RoomsList";
 
 const RoomsContainer = ({ rooms }) => {
   return <RoomsList rooms={rooms} />;

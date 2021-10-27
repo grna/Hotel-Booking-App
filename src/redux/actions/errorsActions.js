@@ -1,16 +1,34 @@
 import {
-  CREATE_ORDER_FAIL,
-  FORM_IS_VALID,
-  FORM_NOT_VALID,
+  CREATE_ORDER_FAILED,
+  FETCH_USER_ORDERS_FAILED,
+  VALIDATE_FORM_SUCCESS,
+  VALIDATE_FORM_FAILED,
   USER_LOGIN_FAILED,
 } from "../ActionTypes";
 import validator from "validator";
 import moment from "moment";
 
-export const userAuthFailed = (error) => (dispatch) => {
+export const fetchUserOrdersFailed = () => (dispatch) => {
+  const errors = {
+    count: 1,
+    fetchUserOrdersFailed:
+      "Oops! Something went wrong while fetching your orders.",
+  };
+
+  dispatch({
+    type: FETCH_USER_ORDERS_FAILED,
+    payload: errors,
+  });
+};
+
+export const userAuthFailed = (errorTxt) => (dispatch) => {
+  const errors = {
+    count: 1,
+    userAuthFailed: errorTxt,
+  };
   dispatch({
     type: USER_LOGIN_FAILED,
-    payload: error,
+    payload: errors,
   });
 };
 
@@ -21,7 +39,7 @@ export const createOrderFailed = (order, error) => (dispatch) => {
       "Oops! Something went wrong when placing your order. Please try again later.",
   };
   console.log(error);
-  dispatch({ type: CREATE_ORDER_FAIL, payload: { order, errors } });
+  dispatch({ type: CREATE_ORDER_FAILED, payload: { order, errors } });
 };
 
 export const validateSignUpForm = (form) => (dispatch) => {
@@ -60,14 +78,14 @@ export const validateSignUpForm = (form) => (dispatch) => {
 
   if (errors.count > 0) {
     dispatch({
-      type: FORM_NOT_VALID,
+      type: VALIDATE_FORM_FAILED,
       payload: errors,
     });
     return false;
   }
 
   dispatch({
-    type: FORM_IS_VALID,
+    type: VALIDATE_FORM_SUCCESS,
     payload: errors,
   });
   return true;
@@ -103,14 +121,14 @@ export const validateSearchForm =
 
     if (errors.count > 0) {
       dispatch({
-        type: FORM_NOT_VALID,
+        type: VALIDATE_FORM_FAILED,
         payload: errors,
       });
       return false;
     }
 
     dispatch({
-      type: FORM_IS_VALID,
+      type: VALIDATE_FORM_SUCCESS,
       payload: errors,
     });
     return true;
@@ -160,14 +178,14 @@ export const validateOrderForm = (order) => async (dispatch) => {
 
   if (errors.count > 0) {
     dispatch({
-      type: FORM_NOT_VALID,
+      type: VALIDATE_FORM_FAILED,
       payload: errors,
     });
     return false;
   }
 
   dispatch({
-    type: FORM_IS_VALID,
+    type: VALIDATE_FORM_SUCCESS,
     payload: errors,
   });
   return true;

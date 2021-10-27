@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "./login.css";
-import Error from "./common/Error";
+import Error from "../common/Error";
 
 const LogIn = ({ errors, userLogIn }) => {
   const [email, setEmail] = useState("");
