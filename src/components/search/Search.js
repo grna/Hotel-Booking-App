@@ -22,27 +22,33 @@ const Search = ({ errors, searchAvailableRooms }) => {
           onFormSubmit(e);
         }}
       >
-        <label>
-          From:
-          <input
-            className="input-date"
-            type="date"
-            name="dateFrom"
-            min={today}
-          ></input>
-          {errors.from && <Error text={errors.from}></Error>}
-        </label>
+        <div className="date-wrapper">
+          <div className="inline">
+            <label>From:</label>
+            <input
+              className="input-date"
+              type="date"
+              name="dateFrom"
+              min={today}
+            ></input>
+          </div>
+          <div>
+            {errors.from && <Error text={errors.from}></Error>}
+          </div>
+        </div>
 
-        <label>
-          To:
-          <input
-            className="input-date"
-            type="date"
-            name="dateTo"
-            min={tomorrow}
-          ></input>
-          {errors.to && <Error text={errors.to}></Error>}
-        </label>
+        <div className="date-wrapper">
+          <div className="inline">
+            <label>To:</label>
+            <input
+              className="input-date"
+              type="date"
+              name="dateTo"
+              min={tomorrow}
+            ></input>
+          </div>
+          <div>{errors.to && <Error text={errors.to}></Error>}</div>
+        </div>
         <div>
           <input
             className="btn btn-xlg"

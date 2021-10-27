@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const shortid = require("shortid");
 const cors = require("cors");
 const validator = require("validator");
+const SimpleCrypto = require("simple-crypto-js").default;
 
 const app = express();
 app.use(bodyParser.json());
@@ -65,6 +66,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const verifyPassword = (dbPass, uiPass) => {
+  const secretKey = "/.awdT613sevn';@aa&^J2";
+  const simpleCrypto = new SimpleCrypto(secretKey);
+  return (
+    simpleCrypto.decrypt(dbPass) === simpleCrypto.decrypt(uiPass)
+  );
+};
+
 // For testing only
 app.get("/api/users", async (req, res) => {
   const users = await User.find({});
@@ -85,7 +94,8 @@ app.post("/api/users", async (req, res) => {
     }
 
     const users = await User.find({ email: req.body.email });
-    if (users[0].password !== req.body.password) {
+
+    if (!verifyPassword(users[0].password, req.body.password)) {
       res.status(401).send("Incorrect password");
       return;
     }

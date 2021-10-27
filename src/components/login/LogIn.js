@@ -32,7 +32,9 @@ const LogIn = ({ errors, userLogIn }) => {
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         ></input>
-        {errors && <Error text={errors.authError} />}
+        {errors.userLoginFailed && (
+          <Error text={errors.userLoginFailed} />
+        )}
         <input
           type="submit"
           className="btn btn-lg"

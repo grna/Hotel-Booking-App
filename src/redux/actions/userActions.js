@@ -4,34 +4,45 @@ import {
   USER_SIGNUP_SUCESS,
 } from "../ActionTypes";
 import { fetchUserOrders } from "./ordersActions";
-import { userAuthFailed, validateSignUpForm } from "./errorsActions";
+import {
+  userLoginFailed,
+  userSignUpFailed,
+  validateSignUpForm,
+} from "./errorsActions";
+import SimpleCrypto from "simple-crypto-js";
+
+const hashIt = (plainTxt) => {
+  const secretKey = "/.awdT613sevn';@aa&^J2";
+  const simpleCrypto = new SimpleCrypto(secretKey);
+  return simpleCrypto.encrypt(plainTxt);
+};
 
 export const userSignUp = (form) => async (dispatch) => {
   const valid = await dispatch(validateSignUpForm(form));
-
   if (!valid) {
     return;
   }
+
+  const encrypted = {
+    ...form,
+    password: hashIt(form.password),
+  };
 
   const res = await fetch("http://localhost:3001/api/users", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(form),
+    body: JSON.stringify(encrypted),
   });
 
   if (!res.ok) {
     const error = await res.text();
-    dispatch(
-      userAuthFailed({
-        count: 1,
-        authError: error,
-      })
-    );
+    dispatch(userSignUpFailed(error));
+    return;
   }
 
-  const user = res.json();
+  const user = await res.json();
   dispatch({
     type: USER_SIGNUP_SUCESS,
     payload: user,
@@ -39,17 +50,23 @@ export const userSignUp = (form) => async (dispatch) => {
 };
 
 export const userLogIn = (form) => async (dispatch) => {
+  const encrypted = {
+    email: form.email,
+    password: hashIt(form.password),
+  };
+
   const res = await fetch("http://localhost:3001/api/users", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(form),
+    body: JSON.stringify(encrypted),
   });
 
   if (!res.ok) {
     const error = await res.text();
-    dispatch(userAuthFailed(error));
+    dispatch(userLoginFailed(error));
+    return;
   }
 
   const user = await res.json();

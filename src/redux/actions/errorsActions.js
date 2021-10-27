@@ -4,6 +4,7 @@ import {
   VALIDATE_FORM_SUCCESS,
   VALIDATE_FORM_FAILED,
   USER_LOGIN_FAILED,
+  USER_SIGNUP_FAILED,
 } from "../ActionTypes";
 import validator from "validator";
 import moment from "moment";
@@ -21,13 +22,24 @@ export const fetchUserOrdersFailed = () => (dispatch) => {
   });
 };
 
-export const userAuthFailed = (errorTxt) => (dispatch) => {
+export const userLoginFailed = (errorTxt) => (dispatch) => {
   const errors = {
     count: 1,
-    userAuthFailed: errorTxt,
+    userLoginFailed: errorTxt,
   };
   dispatch({
     type: USER_LOGIN_FAILED,
+    payload: errors,
+  });
+};
+
+export const userSignUpFailed = (errorTxt) => (dispatch) => {
+  const errors = {
+    count: 1,
+    userSignUpFailed: errorTxt,
+  };
+  dispatch({
+    type: USER_SIGNUP_FAILED,
     payload: errors,
   });
 };
