@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import Zoom from "react-reveal/Zoom";
 import Error from "../common/Error";
 import Order from "../order/Order";
+import "./orderConfirmation.css";
 
 const OrderConfirmation = ({ order, errors, onModalClose }) => {
   const closeModal = () => {

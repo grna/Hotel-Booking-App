@@ -47,6 +47,10 @@ main {
   color: #203040;
   cursor: pointer;
 }
+.btn-danger {
+  background-color: #db4e23;
+  color: #fff;
+}
 .btn-lg {
   width: max-content;
   padding: 0.5rem 2.5rem;

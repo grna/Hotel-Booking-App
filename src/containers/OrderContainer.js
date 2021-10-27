@@ -29,7 +29,7 @@ const OrderContainer = ({
           searchAvailableRooms(rooms, _dateFrom, _dateTo);
         }}
       />
-      {availableRooms && (
+      {availableRooms.length > 0 && (
         <OrderForm
           rooms={availableRooms}
           dateFrom={dateFrom}
@@ -38,7 +38,7 @@ const OrderContainer = ({
           createOrder={createOrder}
         />
       )}
-      {order && (
+      {Object.keys(order).length > 0 && (
         <OrderConfirmation
           order={order}
           errors={errors}
