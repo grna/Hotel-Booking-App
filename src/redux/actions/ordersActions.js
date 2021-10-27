@@ -77,32 +77,35 @@ export const searchAvailableRooms =
     });
   };
 
-export const createOrder = (orderForm) => async (dispatch) => {
-  const valid = await dispatch(validateOrderForm(orderForm));
+export const createOrder =
+  (orderForm) => async (dispatch, getState) => {
+    const valid = await dispatch(validateOrderForm(orderForm));
 
-  if (!valid) {
-    return;
-  }
+    if (!valid) {
+      return;
+    }
 
-  const res = await fetch("http://localhost:3001/api/orders", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(orderForm),
-  });
+    const res = await fetch("http://localhost:3001/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderForm),
+    });
 
-  if (!res.ok) {
-    const error = res.text();
-    dispatch(createOrderFailed(order, error));
-  }
+    if (!res.ok) {
+      const error = res.text();
+      dispatch(createOrderFailed(order, error));
+    }
 
-  const order = await res.json();
-  dispatch({
-    type: CREATE_ORDER_SUCCESS,
-    payload: order,
-  });
-};
+    const order = await res.json();
+    const userOrders = getState().fromOrders.userOrders;
+    const newArray = [order, ...userOrders];
+    dispatch({
+      type: CREATE_ORDER_SUCCESS,
+      payload: { order: order, userOrders: newArray },
+    });
+  };
 
 export const fetchUserOrders = (email) => async (dispatch) => {
   const res = await fetch(

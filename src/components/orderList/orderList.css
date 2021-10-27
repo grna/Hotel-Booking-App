@@ -1,0 +1,15 @@
+.order-list {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  text-align: center;
+}
+.order-list .btn {
+  align-self: center;
+}
+.log-out-btn {
+  margin-top: 40px;
+}
+.btn-danger {
+  margin-bottom: 32px;
+}
