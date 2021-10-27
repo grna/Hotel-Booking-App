@@ -4,6 +4,7 @@ import {
   VALIDATE_FORM_SUCCESS,
   VALIDATE_FORM_FAILED,
   USER_LOGIN_FAILED,
+  USER_SIGNUP_FAILED,
 } from "../ActionTypes";
 
 const errors = {};
@@ -23,6 +24,10 @@ export const errorsReducers = (state = { errors }, action) => {
         errors: action.payload.errors,
       };
     case USER_LOGIN_FAILED:
+      return {
+        errors: action.payload,
+      };
+    case USER_SIGNUP_FAILED:
       return {
         errors: action.payload,
       };

@@ -68,7 +68,9 @@ const SignUp = ({ errors, userSignUp }) => {
           value={confirm}
         ></input>
         {errors.confirm && <Error text={errors.confirm} />}
-        {errors && <Error text={errors.authError} />}
+        {errors.userSignUpFailed && (
+          <Error text={errors.userSignUpFailed} />
+        )}
         <input
           type="submit"
           className="btn btn-lg"
