@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Error from "../common/Error";
 import Order from "../order/Order";
 import "./orderList.css";
+import { toast } from "react-toastify";
 
 const OrderList = ({
   user,
@@ -14,6 +15,7 @@ const OrderList = ({
   const onDeleteOrderClick = (e, orderId) => {
     e.preventDefault();
     deleteUserOrder(orderId);
+    toast.success("Order deleted successfully.");
   };
 
   const onLogOutClick = () => {
@@ -35,7 +37,7 @@ const OrderList = ({
             <div key={order._id}>
               <Order order={order} />
               <button
-                className="btn btn-lg btn-danger"
+                className="btn btn-sm btn-danger"
                 onClick={(e) => onDeleteOrderClick(e, order._id)}
               >
                 Delete
