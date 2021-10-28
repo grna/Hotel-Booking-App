@@ -8,6 +8,7 @@ import {
   userLoginFailed,
   userSignUpFailed,
   validateSignUpForm,
+  validateLogInForm,
 } from "./errorsActions";
 import SimpleCrypto from "simple-crypto-js";
 
@@ -50,6 +51,11 @@ export const userSignUp = (form) => async (dispatch) => {
 };
 
 export const userLogIn = (form) => async (dispatch) => {
+  const valid = await dispatch(validateLogInForm(form));
+  if (!valid) {
+    return;
+  }
+
   const encrypted = {
     email: form.email,
     password: hashIt(form.password),

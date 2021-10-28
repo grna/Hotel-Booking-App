@@ -26,12 +26,14 @@ const LogIn = ({ errors, userLogIn }) => {
           onChange={(e) => setEmail(e.target.value)}
           value={email}
         ></input>
+        {errors.email && <Error text={errors.email} />}
         <label>Password:</label>
         <input
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
         ></input>
+        {errors.password && <Error text={errors.password} />}
         {errors.userLoginFailed && (
           <Error text={errors.userLoginFailed} />
         )}

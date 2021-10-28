@@ -54,12 +54,42 @@ export const createOrderFailed = (order, error) => (dispatch) => {
   dispatch({ type: CREATE_ORDER_FAILED, payload: { order, errors } });
 };
 
+export const validateLogInForm = (form) => (dispatch) => {
+  let errors = {
+    count: 0,
+    email: "",
+    password: "",
+  };
+  if (!form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i)) {
+    errors.count++;
+    errors.email = "Invalid email address!";
+  }
+  if (!form.password) {
+    errors.count++;
+    errors.password = "Password is mandatory!";
+  }
+
+  if (errors.count > 0) {
+    dispatch({
+      type: VALIDATE_FORM_FAILED,
+      payload: errors,
+    });
+    return false;
+  }
+
+  dispatch({
+    type: VALIDATE_FORM_SUCCESS,
+    payload: errors,
+  });
+  return true;
+};
+
 export const validateSignUpForm = (form) => (dispatch) => {
   let errors = {
     count: 0,
     firstName: "",
     lastName: "",
-    emali: "",
+    email: "",
     password: "",
   };
 
