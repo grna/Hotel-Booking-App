@@ -25,7 +25,6 @@ const UserContainer = ({
       {Object.keys(user).length === 0 ? (
         <>
           <LogIn errors={errors} userLogIn={userLogIn} />
-          <p>- or -</p>
           <SignUp errors={errors} userSignUp={userSignUp} />
         </>
       ) : (

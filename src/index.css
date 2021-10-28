@@ -51,6 +51,10 @@ main {
   background-color: #db4e23;
   color: #fff;
 }
+.btn-sm {
+  width: max-content;
+  padding: 0.3rem 1.5rem;
+}
 .btn-lg {
   width: max-content;
   padding: 0.5rem 2.5rem;
