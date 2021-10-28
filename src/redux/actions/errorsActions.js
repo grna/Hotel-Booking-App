@@ -62,11 +62,11 @@ export const validateLogInForm = (form) => (dispatch) => {
   };
   if (!form.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i)) {
     errors.count++;
-    errors.email = "Invalid email address!";
+    errors.loginEmail = "Invalid email address!";
   }
   if (!form.password) {
     errors.count++;
-    errors.password = "Password is mandatory!";
+    errors.loginPassword = "Password is mandatory!";
   }
 
   if (errors.count > 0) {
